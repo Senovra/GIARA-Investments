@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import CustomCursor from "@/components/cursor/CustomCursor";
-import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
-import AppShell from "@/components/loading/AppShell";
+import { basePath } from "@/lib/basePath";
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-display",
   display: "swap",
 });
@@ -21,28 +20,15 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "GIARA — Global Investment Holding",
-    template: "%s | GIARA",
+    default: "GIARA",
+    template: "%s - GIARA",
   },
   description:
-    "GIARA is a global investment holding company specializing in real estate and strategic investments, shaping enduring value through disciplined capital allocation and architectural excellence.",
-  keywords: [
-    "GIARA",
-    "investment holding",
-    "real estate investment",
-    "strategic investments",
-    "luxury real estate",
-  ],
-  openGraph: {
-    title: "GIARA — Investments",
-    description:
-      "Shaping enduring value through disciplined capital allocation and architectural excellence.",
-    type: "website",
-  },
+    "GIARA is a global investment holding company operating hospitality properties in Dubai, Colombo, and the Maldives.",
   icons: {
-    icon: "/Logo3.png",
-    shortcut: "/Logo3.png",
-    apple: "/Logo3.png",
+    icon: `${basePath}/Logo3.png`,
+    shortcut: `${basePath}/Logo3.png`,
+    apple: `${basePath}/Logo3.png`,
   },
   robots: {
     index: true,
@@ -56,16 +42,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body>
-        <AppShell>
-          <SmoothScrollProvider>
-            <CustomCursor />
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </SmoothScrollProvider>
-        </AppShell>
+        <Navbar />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

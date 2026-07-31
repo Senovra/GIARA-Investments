@@ -2,81 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "GiaraDisplay";
-  src: local("Georgia");
-  font-display: swap;
-}
-
 :root {
-  --font-display: "Playfair Display", "GiaraDisplay", serif;
+  --font-display: "Cormorant Garamond", "Playfair Display", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 html {
-  scroll-behavior: auto; /* Lenis handles smooth scroll; avoid conflicting native behavior */
+  scroll-behavior: auto;
 }
 
 body {
-  @apply bg-background text-foreground font-body antialiased;
+  @apply bg-cream text-foreground font-body antialiased;
   overflow-x: hidden;
 }
 
 ::selection {
-  @apply bg-accent/30 text-foreground;
+  @apply bg-accent/20 text-foreground;
 }
 
-/* Focus states — accessibility */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
   outline: 2px solid theme("colors.accent.DEFAULT");
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
-/* Custom cursor — only on fine-pointer, hover-capable devices */
-@media (pointer: fine) and (hover: hover) {
-  body.custom-cursor-active {
-    cursor: none;
-  }
-  body.custom-cursor-active a,
-  body.custom-cursor-active button {
-    cursor: none;
-  }
-}
-
-/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: theme("colors.background.DEFAULT");
+  background: theme("colors.cream.DEFAULT");
 }
 ::-webkit-scrollbar-thumb {
-  background: theme("colors.primary.light");
+  background: theme("colors.accent.DEFAULT");
   border-radius: 8px;
-}
-
-/* Glass utility */
-.glass {
-  background: rgba(18, 18, 18, 0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(245, 243, 239, 0.08);
 }
 
 .text-balance {
   text-wrap: balance;
 }
 
-/* Chrome/Edge/Safari force a white (or yellow) background on autofilled
-   inputs via an internal UA stylesheet that can't be overridden with a
-   normal background-color rule. The standard workaround is an absurdly
-   long transition-delay on background-color, which effectively cancels
-   the browser's forced repaint, combined with -webkit-text-fill-color
-   to keep the filled-in text readable against the dark theme. */
+/* Dark sections (used sparingly, e.g. video hero overlays) */
+.section-dark {
+  @apply bg-primary text-foreground-inverse;
+}
+
 .autofill-field:-webkit-autofill,
 .autofill-field:-webkit-autofill:hover,
 .autofill-field:-webkit-autofill:focus,

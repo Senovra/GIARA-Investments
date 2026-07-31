@@ -12,7 +12,6 @@ export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    company: "",
     message: "",
   });
 
@@ -25,19 +24,15 @@ export default function ContactForm() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus("submitting");
-
     try {
       await new Promise((resolve) => setTimeout(resolve, 900));
       setStatus("success");
-      setFormData({ name: "", email: "", company: "", message: "" });
+      setFormData({ name: "", email: "", message: "" });
     } catch {
       setStatus("error");
     }
   };
 
-  // autofill-field class (defined in globals.css) overrides the browser's
-  // forced white autofill background via a long-delay box-shadow trick,
-  // and keeps text/caret colors matching the dark theme.
   const inputClasses =
     "autofill-field w-full border-b border-foreground/20 bg-transparent py-3 text-foreground placeholder:text-foreground-muted/60 focus:border-accent focus:outline-none transition-colors duration-300";
 
@@ -48,53 +43,37 @@ export default function ContactForm() {
       viewport={{ once: true, margin: "-80px" }}
       variants={fadeUp}
       onSubmit={handleSubmit}
-      className="space-y-8"
+      className="space-y-7"
     >
-      <div className="grid gap-8 md:grid-cols-2">
-        <div>
-          <label htmlFor="name" className="mb-2 block text-xs uppercase tracking-widest text-foreground-muted">
-            Full Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            required
-            value={formData.name}
-            onChange={handleChange}
-            className={inputClasses}
-            placeholder="Jane Doe"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="mb-2 block text-xs uppercase tracking-widest text-foreground-muted">
-            Email Address
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            className={inputClasses}
-            placeholder="jane@company.com"
-          />
-        </div>
+      <div>
+        <label htmlFor="name" className="mb-2 block text-xs uppercase tracking-widest text-foreground-muted">
+          Full Name
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          value={formData.name}
+          onChange={handleChange}
+          className={inputClasses}
+          placeholder="Jane Doe"
+        />
       </div>
 
       <div>
-        <label htmlFor="company" className="mb-2 block text-xs uppercase tracking-widest text-foreground-muted">
-          Company / Institution
+        <label htmlFor="email" className="mb-2 block text-xs uppercase tracking-widest text-foreground-muted">
+          Email Address
         </label>
         <input
-          id="company"
-          name="company"
-          type="text"
-          value={formData.company}
+          id="email"
+          name="email"
+          type="email"
+          required
+          value={formData.email}
           onChange={handleChange}
           className={inputClasses}
-          placeholder="Optional"
+          placeholder="jane@company.com"
         />
       </div>
 
@@ -110,22 +89,22 @@ export default function ContactForm() {
           value={formData.message}
           onChange={handleChange}
           className={`${inputClasses} resize-none`}
-          placeholder="Tell us about your inquiry..."
+          placeholder="Tell us about your enquiry..."
         />
       </div>
 
       <Button type="submit" variant="primary" className="w-full md:w-auto">
-        {status === "submitting" ? "Sending..." : "Request Consultation"}
+        {status === "submitting" ? "Sending..." : "Send Enquiry"}
       </Button>
 
       <div role="status" aria-live="polite">
         {status === "success" && (
           <p className="text-sm text-accent">
-            Thank you — your message has been received. Our team will be in touch shortly.
+            Thank you — your enquiry has been received. Our team will be in touch shortly.
           </p>
         )}
         {status === "error" && (
-          <p className="text-sm text-red-400">
+          <p className="text-sm text-red-600">
             Something went wrong. Please try again or email us directly.
           </p>
         )}

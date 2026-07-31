@@ -33,15 +33,15 @@ export default function SectionHeading({
       )}
     >
       {eyebrow && (
-        <span className="mb-4 block text-xs uppercase tracking-widest text-accent">
+        <span className="mb-3 block text-xs uppercase tracking-widest text-accent">
           {eyebrow}
         </span>
       )}
-      <h2 className="font-display text-4xl font-light leading-[1.2] tracking-wide text-foreground text-balance md:text-5xl">
+      <h2 className="font-display text-3xl font-normal leading-[1.25] text-foreground text-balance md:text-4xl">
         {title}
       </h2>
       {description && (
-        <p className="mt-6 text-base leading-relaxed text-foreground-muted md:text-lg">
+        <p className="mt-5 text-base leading-relaxed text-foreground-muted">
           {description}
         </p>
       )}
