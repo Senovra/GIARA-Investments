@@ -75,7 +75,12 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute left-1/2 top-full -translate-x-1/2 pt-4"
+                    // z-50 added — without an explicit z-index here, the
+                    // destination sub-nav bar (a later sibling in the DOM,
+                    // further down in this same file) was painting on top
+                    // of this dropdown by default stacking order, even
+                    // though this element is absolutely positioned.
+                    className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4"
                   >
                     <div className="min-w-[180px] border border-foreground/10 bg-cream py-3 shadow-lg">
                       {DESTINATIONS.map((dest) => {
@@ -140,12 +145,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Desktop-only sub-nav row, attached directly under the header.
-            Added "hidden md:block" — this was the missing guard causing
-            it to also render on mobile as a stray duplicate bar, on top
-            of the equivalent section already inside the hamburger menu
-            below. Mobile now relies solely on the dropdown for both
-            destination-switching and sub-page navigation. */}
         {isDestinationActive && currentDestSlug && (
           <div
             className={cn(
