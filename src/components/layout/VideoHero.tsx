@@ -51,7 +51,15 @@ export default function VideoHero({
   };
 
   return (
-    <section className="relative h-[65vh] min-h-[420px] w-full overflow-hidden bg-primary md:h-screen md:min-h-[600px]">
+    // Back to full-viewport-height on every breakpoint — now that
+    // hero2.mp4 is actually shot in portrait for mobile, there's no need
+    // for the shorter 65vh workaround that was compensating for a
+    // landscape-only video. 100dvh (dynamic viewport height) is used
+    // instead of 100vh specifically for mobile browsers, since their
+    // address bar shrinking/expanding on scroll makes plain vh jumpy —
+    // dvh accounts for that automatically. Falls back to min-h-screen
+    // for any browser that doesn't support dvh.
+    <section className="relative h-screen min-h-screen w-full overflow-hidden bg-primary [@supports(height:100dvh)]:h-[100dvh]">
       <motion.video
         ref={videoRef}
         initial="hidden"
@@ -70,12 +78,6 @@ export default function VideoHero({
           }
         }}
       >
-        {/* Browsers evaluate <source media="..."> at load time and pick
-            the first matching one — this is the standard, framework-free
-            way to serve a different video file per breakpoint without
-            duplicating the <video> element or its ref/mute state.
-            Mobile (portrait-shot hero2.mp4) is listed first since the
-            browser takes the first match. */}
         <source src={mobileVideoSrc} media="(max-width: 767px)" type="video/mp4" />
         <source src={desktopVideoSrc} type="video/mp4" />
       </motion.video>
