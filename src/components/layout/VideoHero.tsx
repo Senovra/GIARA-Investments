@@ -6,11 +6,13 @@ import { fadeIn } from "@/animations/variants";
 import { basePath } from "@/lib/basePath";
 
 interface VideoHeroProps {
-  videoSrc?: string;
+  desktopVideoSrc?: string;
+  mobileVideoSrc?: string;
   posterImage?: string;
 }
 
-const DEFAULT_VIDEO = `${basePath}/videos/hero.mp4`;
+const DEFAULT_DESKTOP_VIDEO = `${basePath}/videos/hero.mp4`;
+const DEFAULT_MOBILE_VIDEO = `${basePath}/videos/hero2.mp4`;
 const FALLBACK_VIDEO = "https://assets.mixkit.co/videos/28602/28602-360.mp4";
 
 function MuteIcon() {
@@ -34,7 +36,8 @@ function UnmuteIcon() {
 }
 
 export default function VideoHero({
-  videoSrc = DEFAULT_VIDEO,
+  desktopVideoSrc = DEFAULT_DESKTOP_VIDEO,
+  mobileVideoSrc = DEFAULT_MOBILE_VIDEO,
   posterImage,
 }: VideoHeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -48,11 +51,6 @@ export default function VideoHero({
   };
 
   return (
-    // Mobile: fixed shorter height (65vh) instead of full-screen — this
-    // keeps the crop ratio much closer to the landscape video's actual
-    // shape, so object-cover doesn't need to zoom in as aggressively and
-    // crop away most of the width. Desktop keeps the original full h-screen
-    // treatment since the video was shot for that ratio.
     <section className="relative h-[65vh] min-h-[420px] w-full overflow-hidden bg-primary md:h-screen md:min-h-[600px]">
       <motion.video
         ref={videoRef}
@@ -72,7 +70,14 @@ export default function VideoHero({
           }
         }}
       >
-        <source src={videoSrc} type="video/mp4" />
+        {/* Browsers evaluate <source media="..."> at load time and pick
+            the first matching one — this is the standard, framework-free
+            way to serve a different video file per breakpoint without
+            duplicating the <video> element or its ref/mute state.
+            Mobile (portrait-shot hero2.mp4) is listed first since the
+            browser takes the first match. */}
+        <source src={mobileVideoSrc} media="(max-width: 767px)" type="video/mp4" />
+        <source src={desktopVideoSrc} type="video/mp4" />
       </motion.video>
 
       <div className="absolute inset-0 bg-primary/20" />
