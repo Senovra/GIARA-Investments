@@ -7,8 +7,8 @@ import { staggerContainer, staggerItem } from "@/animations/variants";
 import { DESTINATIONS } from "@/constants/nav";
 import { destinationContent, DestinationSlug } from "@/data/destinationContent";
 
-const SLIDE_INTERVAL = 6000; // ms between crossfades — slowed from 3.5s
-const FADE_DURATION = 2.2; // seconds — slower, more deliberate crossfade
+const SLIDE_INTERVAL = 6000;
+const FADE_DURATION = 2.2;
 
 function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: string; href: string }) {
   const content = destinationContent[slug];
@@ -27,7 +27,7 @@ function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: 
   }, [images.length]);
 
   return (
-    <motion.div variants={staggerItem} className="group relative aspect-[3/4] w-full overflow-hidden">
+    <motion.div variants={staggerItem} className="group relative aspect-[4/5] w-full overflow-hidden">
       <AnimatePresence mode="sync">
         <motion.img
           key={images[index]}
@@ -43,7 +43,7 @@ function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: 
       <div className="absolute inset-0 bg-primary/25 transition-colors duration-500 group-hover:bg-primary/35" />
 
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-center">
-        <span className="font-display text-2xl text-cream md:text-3xl">{label}</span>
+        <span className="font-display text-3xl text-cream md:text-4xl">{label}</span>
         <Link
           href={href}
           className="border border-cream/60 px-6 py-2.5 text-xs uppercase tracking-widest text-cream transition-colors duration-300 hover:border-cream hover:bg-cream hover:text-primary"
@@ -58,7 +58,7 @@ function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: 
 export default function DestinationCards() {
   return (
     <section className="border-y border-foreground/10 bg-cream-dark">
-      <div className="mx-auto max-w-7xl px-6 py-16 md:px-10 md:py-20">
+      <div className="mx-auto max-w-5xl px-6 py-16 md:px-10 md:py-20">
         <span className="mb-10 block text-center text-xs uppercase tracking-widest text-accent">
           Select a Destination
         </span>
@@ -67,7 +67,12 @@ export default function DestinationCards() {
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           variants={staggerContainer}
-          className="grid grid-cols-1 gap-4 sm:grid-cols-3"
+          // grid-cols-2 instead of 3 — with Dubai moved to Headquarters,
+          // only Colombo and Maldives remain here, so this uses a
+          // narrower max-width container (max-w-5xl vs 7xl) and taller
+          // aspect ratio (4/5 vs 3/4) so the two cards read as an
+          // intentional pair rather than a 3-column grid with a gap.
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2"
         >
           {DESTINATIONS.map((dest) => (
             <DestinationCard

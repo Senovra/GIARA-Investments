@@ -10,15 +10,20 @@ import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { basePath } from "@/lib/basePath";
 import { cn } from "@/lib/utils";
 
+// Applied inline (not just via global CSS) because Chromium's forced-dark
+// engine (which Samsung Internet is built on) evaluates fixed-position,
+// backdrop-blurred elements as their own separate paint layer — a
+// page-level <meta> or html { color-scheme } doesn't reliably reach into
+// that layer. Declaring it directly on the layered element itself is the
+// scoped fix for that specific behavior.
+const lightScheme: React.CSSProperties = { colorScheme: "light" };
+
 export default function Navbar() {
   const pathname = usePathname();
   const { scrolled } = useScrollDirection();
   const [isOpen, setIsOpen] = useState(false);
   const [isDestOpen, setIsDestOpen] = useState(false);
 
-  // Restored: transparent-over-hero, solid-on-scroll. Hero routes are
-  // Home, About, Dubai (single headquarters page), Colombo, Maldives —
-  // every page that opens with a full-bleed video/image.
   const heroRoutes = ["/", "/about", "/dubai", "/colombo", "/maldives"];
   const hasHeroBackground = heroRoutes.includes(pathname);
   const navIsSolid = scrolled || !hasHeroBackground || isOpen;
@@ -38,6 +43,7 @@ export default function Navbar() {
   return (
     <>
       <header
+        style={lightScheme}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-premium",
           navIsSolid ? "bg-cream/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
@@ -51,6 +57,7 @@ export default function Navbar() {
               width={1007}
               height={659}
               priority
+              style={lightScheme}
               className={cn(
                 "h-9 w-auto object-contain transition-all duration-500",
                 !navIsSolid && "brightness-0 invert"
@@ -79,6 +86,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                    style={lightScheme}
                     className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4"
                   >
                     <div className="min-w-[180px] border border-foreground/10 bg-cream py-3 shadow-lg">
@@ -150,6 +158,7 @@ export default function Navbar() {
 
         {isDestinationActive && currentDestSlug && (
           <div
+            style={lightScheme}
             className={cn(
               "hidden transition-all duration-500 ease-premium md:block",
               navIsSolid ? "border-t border-foreground/10 bg-cream/95 backdrop-blur-sm" : "bg-transparent"
@@ -187,6 +196,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            style={lightScheme}
             className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-6 overflow-y-auto bg-cream py-24 md:hidden"
           >
             <span className="text-xs uppercase tracking-widest text-accent">Destinations</span>

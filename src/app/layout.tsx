@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   description:
     "GIARA is a global investment holding company operating hospitality properties in Colombo and the Maldives.",
-  icons: {
+   icons: {
     icon: `${basePath}/Logo3.png`,
     shortcut: `${basePath}/Logo3.png`,
     apple: `${basePath}/Logo3.png`,
@@ -34,13 +34,14 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  // "light only" (vs just "light") is a stronger signal some Chromium
+  // forced-dark implementations respect more strictly, treating it as an
+  // explicit opt-out rather than a supported-scheme hint.
+  other: {
+    "color-scheme": "light only",
+  },
 };
 
-// The dedicated viewport export is Next.js's supported way to emit the
-// <meta name="color-scheme"> and <meta name="theme-color"> tags — this
-// is the browser-facing signal (in addition to the CSS property in
-// globals.css) that tells Samsung Internet and similar browsers not to
-// force-repaint the page in dark mode.
 export const viewport: Viewport = {
   colorScheme: "light",
   themeColor: "#F5F2EC",
