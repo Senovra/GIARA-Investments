@@ -10,12 +10,6 @@ import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { basePath } from "@/lib/basePath";
 import { cn } from "@/lib/utils";
 
-// Applied inline (not just via global CSS) because Chromium's forced-dark
-// engine (which Samsung Internet is built on) evaluates fixed-position,
-// backdrop-blurred elements as their own separate paint layer — a
-// page-level <meta> or html { color-scheme } doesn't reliably reach into
-// that layer. Declaring it directly on the layered element itself is the
-// scoped fix for that specific behavior.
 const lightScheme: React.CSSProperties = { colorScheme: "light" };
 
 export default function Navbar() {
@@ -33,6 +27,16 @@ export default function Navbar() {
   const currentDestSlug = activeDestination?.href.replace("/", "");
   const isHeadquartersActive = pathname === HEADQUARTERS.href;
 
+  // Two GLASS states instead of transparent-vs-solid: over a hero, it's
+  // a dark frosted glass bar (real background + blur, never invisible);
+  // everywhere else / once scrolled, it's a light frosted glass bar.
+  // Neither state is ever fully transparent, which is what was letting
+  // Samsung's forced-dark engine treat the bar as "empty" and repaint it
+  // unpredictably.
+  const headerBg = navIsSolid
+    ? "bg-cream/90 backdrop-blur-md shadow-sm"
+    : "bg-primary/35 backdrop-blur-md";
+
   const linkClasses = (isActive: boolean) =>
     cn(
       "text-xs uppercase tracking-widest transition-colors duration-300",
@@ -46,7 +50,7 @@ export default function Navbar() {
         style={lightScheme}
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-premium",
-          navIsSolid ? "bg-cream/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
+          headerBg
         )}
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
@@ -160,8 +164,8 @@ export default function Navbar() {
           <div
             style={lightScheme}
             className={cn(
-              "hidden transition-all duration-500 ease-premium md:block",
-              navIsSolid ? "border-t border-foreground/10 bg-cream/95 backdrop-blur-sm" : "bg-transparent"
+              "hidden border-t transition-all duration-500 ease-premium md:block",
+              navIsSolid ? "border-foreground/10 bg-cream/90 backdrop-blur-md" : "border-cream/10 bg-primary/35 backdrop-blur-md"
             )}
           >
             <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-8 gap-y-2 overflow-x-auto px-6 py-3 md:px-10">
