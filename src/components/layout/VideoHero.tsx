@@ -38,11 +38,6 @@ export default function VideoHero({
   posterImage,
 }: VideoHeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  // Starts muted — required for autoplay to reliably work across
-  // browsers without a prior user gesture. Clicking the toggle below IS
-  // a direct user gesture, so unmuting on click is allowed by browser
-  // autoplay policies (unlike unmuting automatically on load, which
-  // would get blocked or silently ignored).
   const [isMuted, setIsMuted] = useState(true);
 
   const toggleMute = () => {
@@ -53,7 +48,12 @@ export default function VideoHero({
   };
 
   return (
-    <section className="relative h-screen min-h-[600px] w-full overflow-hidden bg-primary">
+    // Mobile: fixed shorter height (65vh) instead of full-screen — this
+    // keeps the crop ratio much closer to the landscape video's actual
+    // shape, so object-cover doesn't need to zoom in as aggressively and
+    // crop away most of the width. Desktop keeps the original full h-screen
+    // treatment since the video was shot for that ratio.
+    <section className="relative h-[65vh] min-h-[420px] w-full overflow-hidden bg-primary md:h-screen md:min-h-[600px]">
       <motion.video
         ref={videoRef}
         initial="hidden"
@@ -64,7 +64,7 @@ export default function VideoHero({
         loop
         playsInline
         poster={posterImage}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover object-center"
         onError={(e) => {
           const video = e.currentTarget;
           if (video.src !== FALLBACK_VIDEO) {
@@ -83,7 +83,7 @@ export default function VideoHero({
         transition={{ delay: 1, duration: 0.8 }}
         onClick={toggleMute}
         aria-label={isMuted ? "Unmute video" : "Mute video"}
-        className="absolute bottom-8 right-8 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-cream/50 text-cream backdrop-blur-sm transition-colors duration-300 hover:border-cream hover:bg-cream/10 md:bottom-10 md:right-10"
+        className="absolute bottom-6 right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-cream/50 text-cream backdrop-blur-sm transition-colors duration-300 hover:border-cream hover:bg-cream/10 md:bottom-10 md:right-10 md:h-11 md:w-11"
       >
         {isMuted ? <MuteIcon /> : <UnmuteIcon />}
       </motion.button>
