@@ -5,10 +5,17 @@
 :root {
   --font-display: "Cormorant Garamond", "Playfair Display", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Explicitly opts the page out of forced/auto dark-mode repainting by
+     browsers like Samsung Internet — without this, some Android
+     browsers heuristically invert or recolor semi-transparent elements
+     (like the nav overlaying the hero video), which is what was
+     causing the contrast/readability issue. */
+  color-scheme: light;
 }
 
 html {
   scroll-behavior: auto;
+  color-scheme: light;
 }
 
 body {
@@ -43,7 +50,6 @@ textarea:focus-visible {
   text-wrap: balance;
 }
 
-/* Dark sections (used sparingly, e.g. video hero overlays) */
 .section-dark {
   @apply bg-primary text-foreground-inverse;
 }

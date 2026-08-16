@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -21,10 +21,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: {
     default: "GIARA",
-    template: "%s - GIARA",
+    template: "%s | GIARA",
   },
   description:
-    "GIARA is a global investment holding company operating hospitality properties in Dubai, Colombo, and the Maldives.",
+    "GIARA is a global investment holding company operating hospitality properties in Colombo and the Maldives.",
   icons: {
     icon: `${basePath}/Logo3.png`,
     shortcut: `${basePath}/Logo3.png`,
@@ -34,6 +34,16 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+};
+
+// The dedicated viewport export is Next.js's supported way to emit the
+// <meta name="color-scheme"> and <meta name="theme-color"> tags — this
+// is the browser-facing signal (in addition to the CSS property in
+// globals.css) that tells Samsung Internet and similar browsers not to
+// force-repaint the page in dark mode.
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#F5F2EC",
 };
 
 export default function RootLayout({

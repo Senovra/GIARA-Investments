@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { DESTINATIONS, NAV_LINKS, DESTINATION_SUBNAV } from "@/constants/nav";
+import { DESTINATIONS, HEADQUARTERS, NAV_LINKS, DESTINATION_SUBNAV } from "@/constants/nav";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { basePath } from "@/lib/basePath";
 import { cn } from "@/lib/utils";
@@ -16,6 +16,9 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDestOpen, setIsDestOpen] = useState(false);
 
+  // Restored: transparent-over-hero, solid-on-scroll. Hero routes are
+  // Home, About, Dubai (single headquarters page), Colombo, Maldives —
+  // every page that opens with a full-bleed video/image.
   const heroRoutes = ["/", "/about", "/dubai", "/colombo", "/maldives"];
   const hasHeroBackground = heroRoutes.includes(pathname);
   const navIsSolid = scrolled || !hasHeroBackground || isOpen;
@@ -23,6 +26,7 @@ export default function Navbar() {
   const activeDestination = DESTINATIONS.find((d) => pathname.startsWith(d.href));
   const isDestinationActive = Boolean(activeDestination);
   const currentDestSlug = activeDestination?.href.replace("/", "");
+  const isHeadquartersActive = pathname === HEADQUARTERS.href;
 
   const linkClasses = (isActive: boolean) =>
     cn(
@@ -75,7 +79,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                    className="absolute left-1/2 top-full -translate-x-1/2 pt-4"
+                    className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4"
                   >
                     <div className="min-w-[180px] border border-foreground/10 bg-cream py-3 shadow-lg">
                       {DESTINATIONS.map((dest) => {
@@ -98,6 +102,10 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
+
+            <Link href={HEADQUARTERS.href} className={linkClasses(isHeadquartersActive)}>
+              Headquarters
+            </Link>
 
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
@@ -140,12 +148,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Desktop-only sub-nav row, attached directly under the header.
-            Added "hidden md:block" — this was the missing guard causing
-            it to also render on mobile as a stray duplicate bar, on top
-            of the equivalent section already inside the hamburger menu
-            below. Mobile now relies solely on the dropdown for both
-            destination-switching and sub-page navigation. */}
         {isDestinationActive && currentDestSlug && (
           <div
             className={cn(
@@ -228,6 +230,20 @@ export default function Navbar() {
                 })}
               </div>
             )}
+
+            <div className="my-2 h-px w-16 bg-foreground/10" />
+
+            <span className="text-xs uppercase tracking-widest text-accent">Headquarters</span>
+            <Link
+              href={HEADQUARTERS.href}
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                "font-display text-2xl text-foreground",
+                isHeadquartersActive && "text-accent-light underline underline-offset-4 decoration-1"
+              )}
+            >
+              {HEADQUARTERS.label}
+            </Link>
 
             <div className="my-2 h-px w-16 bg-foreground/10" />
             {NAV_LINKS.map((link) => {
