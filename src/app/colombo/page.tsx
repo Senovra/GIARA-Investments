@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import ImageHero from "@/components/layout/ImageHero";
+import DestinationVideoHero from "@/components/layout/DestinationVideoHero";
 import DestinationSection from "@/components/sections/DestinationSection";
 import { destinationContent } from "@/data/destinationContent";
+import { basePath } from "@/lib/basePath";
 
 export const metadata: Metadata = {
   title: "Colombo",
@@ -11,9 +12,9 @@ export const metadata: Metadata = {
 export default function ColomboOverviewPage() {
   return (
     <>
-      <ImageHero
-        image={destinationContent.colombo.overview.image}
-        imageAlt={destinationContent.colombo.overview.imageAlt}
+      <DestinationVideoHero
+        videoSrc={`${basePath}/videos/colombo.mp4`}
+        posterImage={destinationContent.colombo.overview.image}
       />
       <DestinationSection content={destinationContent.colombo.overview} isOverview />
     </>
