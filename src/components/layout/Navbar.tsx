@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -18,6 +18,14 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDestOpen, setIsDestOpen] = useState(false);
 
+  // Closes the mobile menu automatically whenever the route changes —
+  // guards against exactly this kind of stale-content bug, where
+  // navigating via a Link inside the menu could otherwise leave old
+  // menu state/DOM around instead of freshly reflecting the new page.
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   const heroRoutes = ["/", "/about", "/dubai", "/colombo", "/maldives"];
   const hasHeroBackground = heroRoutes.includes(pathname);
   const navIsSolid = scrolled || !hasHeroBackground || isOpen;
@@ -27,12 +35,6 @@ export default function Navbar() {
   const currentDestSlug = activeDestination?.href.replace("/", "");
   const isHeadquartersActive = pathname === HEADQUARTERS.href;
 
-  // Two GLASS states instead of transparent-vs-solid: over a hero, it's
-  // a dark frosted glass bar (real background + blur, never invisible);
-  // everywhere else / once scrolled, it's a light frosted glass bar.
-  // Neither state is ever fully transparent, which is what was letting
-  // Samsung's forced-dark engine treat the bar as "empty" and repaint it
-  // unpredictably.
   const headerBg = navIsSolid
     ? "bg-cream/90 backdrop-blur-md shadow-sm"
     : "bg-primary/35 backdrop-blur-md";
@@ -193,9 +195,15 @@ export default function Navbar() {
         )}
       </header>
 
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isOpen && (
           <motion.div
+            // Keyed by pathname — forces React to fully unmount and
+            // remount this menu's contents on every route change rather
+            // than reusing/patching the previous render, which is the
+            // most robust guard against any stale-list bug like the one
+            // reported (Colombo missing after navigating to Maldives).
+            key={pathname}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -210,7 +218,6 @@ export default function Navbar() {
                 <Link
                   key={dest.href}
                   href={dest.href}
-                  onClick={() => setIsOpen(false)}
                   className={cn(
                     "font-display text-2xl text-foreground",
                     isActive && "text-accent-light underline underline-offset-4 decoration-1"
@@ -232,7 +239,6 @@ export default function Navbar() {
                     <Link
                       key={item.label}
                       href={href}
-                      onClick={() => setIsOpen(false)}
                       className={cn(
                         "text-sm uppercase tracking-widest text-foreground-muted",
                         isActive && "text-accent-light underline underline-offset-4 decoration-1"
@@ -250,7 +256,6 @@ export default function Navbar() {
             <span className="text-xs uppercase tracking-widest text-accent">Headquarters</span>
             <Link
               href={HEADQUARTERS.href}
-              onClick={() => setIsOpen(false)}
               className={cn(
                 "font-display text-2xl text-foreground",
                 isHeadquartersActive && "text-accent-light underline underline-offset-4 decoration-1"
@@ -266,7 +271,6 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setIsOpen(false)}
                   className={cn(
                     "font-display text-2xl text-foreground",
                     isActive && "text-accent-light underline underline-offset-4 decoration-1"
@@ -278,7 +282,6 @@ export default function Navbar() {
             })}
             <Link
               href="/contact"
-              onClick={() => setIsOpen(false)}
               className="mt-4 border border-foreground/30 px-6 py-3 text-xs uppercase tracking-widest text-foreground"
             >
               Enquire
