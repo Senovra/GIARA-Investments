@@ -12,10 +12,7 @@ export const metadata: Metadata = {
 export default function MaldivesOverviewPage() {
   return (
     <>
-      <DestinationVideoHero
-        videoSrc={`${basePath}/videos/maldives.mp4`}
-        posterImage={destinationContent.maldives.overview.image}
-      />
+      <DestinationVideoHero videoSrc={`${basePath}/videos/maldives.mp4`} />
       <DestinationSection content={destinationContent.maldives.overview} isOverview />
     </>
   );

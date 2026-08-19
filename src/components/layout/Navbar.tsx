@@ -12,12 +12,6 @@ import { cn } from "@/lib/utils";
 
 const lightScheme: React.CSSProperties = { colorScheme: "light" };
 
-// Hardcoded directly in this file — bypasses src/constants/nav.ts
-// entirely for the mobile menu, to rule out any possibility of that
-// file being stale/out of sync as the cause of the missing-destination
-// bug. If this fixes it, the constants file was the culprit; if not,
-// it points conclusively at a duplicate Navbar file being loaded
-// instead of this one.
 const MOBILE_DESTINATIONS = [
   { label: "Colombo", href: "/colombo" },
   { label: "Maldives", href: "/maldives" },
@@ -46,14 +40,6 @@ export default function Navbar() {
     ? "bg-cream/90 backdrop-blur-md shadow-sm"
     : "bg-primary/35 backdrop-blur-md";
 
-  // Single shared active-state style used EVERYWHERE — desktop top-level
-  // links, the Destinations dropdown trigger, items inside that
-  // dropdown, the sub-nav row, and every item in the mobile menu. This
-  // is what fixes the "PC destination highlight doesn't match the rest"
-  // complaint — previously the dropdown's individual links used a
-  // different color (`text-accent`) than every other active link
-  // (`text-accent-light` + underline). Now there is exactly one active
-  // style, applied via this single function everywhere.
   const linkClasses = (isActive: boolean, size: "sm" | "lg" = "sm") =>
     cn(
       size === "sm" ? "text-xs uppercase tracking-widest" : "font-display text-2xl",
@@ -220,7 +206,14 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             style={lightScheme}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-6 overflow-y-auto bg-cream py-24 md:hidden"
+            // Changed from justify-center to justify-start + top padding
+            // that clears the header — this was the actual bug. With
+            // long content (destination pages add 7 extra sub-nav
+            // items), centering pushed the top of the list above the
+            // visible screen. Now the list always starts right below the
+            // header and scrolls down, so "Destinations / Colombo /
+            // Maldives" is always the first thing visible.
+            className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-6 overflow-y-auto bg-cream px-6 pb-16 pt-28"
           >
             <span className="text-xs uppercase tracking-widest text-accent">Destinations</span>
             <Link href="/colombo" className={linkClasses(pathname === "/colombo", "lg")}>

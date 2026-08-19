@@ -1,41 +1,41 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { fadeIn } from "@/animations/variants";
 
 interface DestinationVideoHeroProps {
   videoSrc: string;
-  posterImage?: string;
+  mobileVideoSrc?: string;
 }
 
+// No poster image, ever — the section shows a plain solid background
+// (bg-primary) until the video itself is ready to play, then fades the
+// video in. This removes the static-image flash entirely, per the
+// requirement that nothing but video should ever appear in these heroes.
 export default function DestinationVideoHero({
   videoSrc,
-  posterImage,
+  mobileVideoSrc,
 }: DestinationVideoHeroProps) {
+  const [isReady, setIsReady] = useState(false);
+
   return (
     <section className="relative h-screen min-h-screen w-full overflow-hidden bg-primary [@supports(height:100dvh)]:h-[100dvh]">
       <motion.video
-        // key={videoSrc} forces React to unmount/remount a fresh <video>
-        // element whenever the source changes (i.e. on every navigation
-        // between destination pages), instead of reusing the same DOM
-        // node and just swapping its src — which was causing the
-        // previous page's last video frame to remain visible for a
-        // couple of seconds while the new one loaded.
         key={videoSrc}
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isReady ? 1 : 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
-        poster={posterImage}
+        onCanPlay={() => setIsReady(true)}
         className="absolute inset-0 h-full w-full object-cover object-center"
       >
+        {mobileVideoSrc && <source src={mobileVideoSrc} media="(max-width: 767px)" type="video/mp4" />}
         <source src={videoSrc} type="video/mp4" />
       </motion.video>
-      <div className="absolute inset-0 bg-primary/20" />
     </section>
   );
 }
