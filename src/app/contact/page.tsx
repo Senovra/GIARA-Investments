@@ -17,6 +17,12 @@ export default function ContactPage() {
         <h1 className="font-display text-3xl font-normal leading-[1.25] text-foreground text-balance md:text-4xl">
           Begin a conversation with our team.
         </h1>
+        <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-foreground-muted">
+          Whether you&apos;re enquiring about a stay in Colombo or the
+          Maldives, exploring an investment opportunity, or simply
+          have a question, we read every message personally and aim to
+          respond within one business day.
+        </p>
       </div>
 
       <div className="grid gap-16 md:grid-cols-[1.3fr_1fr]">
