@@ -8,10 +8,6 @@ interface DestinationVideoHeroProps {
   posterImage?: string;
 }
 
-// Muted-only hero for destination pages that have silent video footage —
-// no mute/unmute button, unlike the homepage's VideoHero, since there's
-// no audio track to toggle. posterImage (the existing destination photo)
-// shows immediately while the video loads, avoiding a blank/black flash.
 export default function DestinationVideoHero({
   videoSrc,
   posterImage,
@@ -19,6 +15,13 @@ export default function DestinationVideoHero({
   return (
     <section className="relative h-screen min-h-screen w-full overflow-hidden bg-primary [@supports(height:100dvh)]:h-[100dvh]">
       <motion.video
+        // key={videoSrc} forces React to unmount/remount a fresh <video>
+        // element whenever the source changes (i.e. on every navigation
+        // between destination pages), instead of reusing the same DOM
+        // node and just swapping its src — which was causing the
+        // previous page's last video frame to remain visible for a
+        // couple of seconds while the new one loaded.
+        key={videoSrc}
         initial="hidden"
         animate="visible"
         variants={fadeIn}
@@ -26,6 +29,7 @@ export default function DestinationVideoHero({
         muted
         loop
         playsInline
+        preload="auto"
         poster={posterImage}
         className="absolute inset-0 h-full w-full object-cover object-center"
       >

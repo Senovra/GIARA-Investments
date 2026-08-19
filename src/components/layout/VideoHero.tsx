@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/animations/variants";
 import { basePath } from "@/lib/basePath";
@@ -41,7 +41,29 @@ export default function VideoHero({
   posterImage,
 }: VideoHeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+
+  useEffect(() => {
+    // Most browsers block autoplay-with-sound outright. Attempt
+    // unmuted playback first (per request); if the browser rejects it,
+    // fall back to muted autoplay so the video still plays instead of
+    // sitting frozen — the visitor can then unmute manually via the
+    // button.
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        video.muted = true;
+        setIsMuted(true);
+        video.play().catch(() => {
+          // If even muted autoplay is blocked, do nothing further —
+          // the poster image remains visible until user interaction.
+        });
+      });
+    }
+  }, []);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -51,22 +73,12 @@ export default function VideoHero({
   };
 
   return (
-    // Back to full-viewport-height on every breakpoint — now that
-    // hero2.mp4 is actually shot in portrait for mobile, there's no need
-    // for the shorter 65vh workaround that was compensating for a
-    // landscape-only video. 100dvh (dynamic viewport height) is used
-    // instead of 100vh specifically for mobile browsers, since their
-    // address bar shrinking/expanding on scroll makes plain vh jumpy —
-    // dvh accounts for that automatically. Falls back to min-h-screen
-    // for any browser that doesn't support dvh.
     <section className="relative h-screen min-h-screen w-full overflow-hidden bg-primary [@supports(height:100dvh)]:h-[100dvh]">
       <motion.video
         ref={videoRef}
         initial="hidden"
         animate="visible"
         variants={fadeIn}
-        autoPlay
-        muted
         loop
         playsInline
         poster={posterImage}
