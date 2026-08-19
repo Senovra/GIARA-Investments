@@ -64,10 +64,10 @@ export default function VisionSection() {
         className="mx-auto mt-16 max-w-2xl text-center"
       >
         <p className="font-display text-xl italic leading-relaxed text-foreground md:text-2xl">
-          &ldquo;We want to redefine considered growth — not through scale
-          or spectacle, but through restraint, authenticity, and calm.
-          Our vision is to build holdings that endure because they are
-          composed with clarity and purpose.&rdquo;
+          &ldquo;We are not building for this year, or even this decade.
+          Every decision at GIARA is made with the next generation in
+          mind — restraint today, so that what we build still matters
+          tomorrow.&rdquo;
         </p>
         <span className="mt-6 block text-xs uppercase tracking-widest text-foreground-muted">
           Leadership, GIARA

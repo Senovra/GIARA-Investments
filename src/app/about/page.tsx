@@ -5,7 +5,7 @@ import VisionSection from "@/components/sections/VisionSection";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "GIARA is a global investment holding company operating hospitality properties in Dubai, Colombo, and the Maldives.",
+    "GIARA is a global investment holding company operating hospitality properties in Colombo and the Maldives, headquartered in Dubai.",
 };
 
 export default function AboutPage() {
@@ -22,11 +22,31 @@ export default function AboutPage() {
         <h1 className="font-display text-3xl font-normal leading-[1.25] text-foreground text-balance md:text-4xl">
           Cities need pockets of calm.
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-foreground-muted">
-          We instil a sense of balance through the composed elegance of
-          less and the gentle, authentic rhythms of purposeful
-          hospitality — found across Dubai, Colombo, and the Maldives.
-        </p>
+        <div className="mx-auto mt-6 max-w-xl space-y-5 text-left text-base leading-relaxed text-foreground-muted md:text-center">
+          <p>
+            GIARA is a global investment holding company built on a single
+            conviction: that real value is created slowly, through
+            discipline, restraint, and an unwavering attention to detail.
+            Headquartered in Dubai, GIARA holds a portfolio spanning real
+            estate investment and hospitality, with destinations in
+            Colombo and the Maldives.
+          </p>
+          <p>
+            Our approach is intentionally understated. We are not
+            interested in scale for its own sake. Every property we hold,
+            every space we develop, is shaped by a preference for quiet
+            confidence over spectacle — architecture and hospitality that
+            reward attention rather than demand it.
+          </p>
+          <p>
+            This philosophy extends from how we select investments to how
+            our destinations are run day to day. We work with partners
+            who share our patience, and we measure success across
+            decades rather than quarters. It is a simple idea, applied
+            with discipline — and it is the reason GIARA has grown the
+            way it has.
+          </p>
+        </div>
       </section>
       <VisionSection />
     </>
