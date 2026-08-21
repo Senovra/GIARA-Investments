@@ -11,10 +11,7 @@ export const metadata: Metadata = {
 export default function DubaiPage() {
   return (
     <>
-      <DestinationVideoHero
-        videoSrc={`${basePath}/videos/dubai.mp4`}
-        mobileVideoSrc={`${basePath}/videos/dubai2.mp4`}
-      />
+      <DestinationVideoHero videoSrc={`${basePath}/videos/dubai.mp4`} />
       <section className="mx-auto max-w-2xl px-6 py-24 text-center md:px-10 md:py-32">
         <span className="mb-4 block text-xs uppercase tracking-widest text-accent">
           Headquarters
@@ -22,7 +19,7 @@ export default function DubaiPage() {
         <h1 className="font-display text-3xl font-normal leading-[1.25] text-foreground text-balance md:text-4xl">
           Dubai
         </h1>
-        <div className="mx-auto mt-6 max-w-xl space-y-5 text-base leading-relaxed text-foreground-muted">
+        <div className="mx-auto mt-6 max-w-xl space-y-5 text-left text-base leading-relaxed text-foreground-muted md:text-center">
           <p>
             GIARA is headquartered in Dubai, a city that has become one of
             the world&apos;s leading centres for international investment

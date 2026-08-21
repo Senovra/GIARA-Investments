@@ -6,14 +6,10 @@ import { fadeIn } from "@/animations/variants";
 import { basePath } from "@/lib/basePath";
 
 interface VideoHeroProps {
-  desktopVideoSrc?: string;
-  mobileVideoSrc?: string;
-  posterImage?: string;
+  videoSrc?: string;
 }
 
-const DEFAULT_DESKTOP_VIDEO = `${basePath}/videos/hero.mp4`;
-const DEFAULT_MOBILE_VIDEO = `${basePath}/videos/hero2.mp4`;
-const FALLBACK_VIDEO = "https://assets.mixkit.co/videos/28602/28602-360.mp4";
+const DEFAULT_VIDEO = `${basePath}/videos/hero.mp4`;
 
 function MuteIcon() {
   return (
@@ -35,20 +31,11 @@ function UnmuteIcon() {
   );
 }
 
-export default function VideoHero({
-  desktopVideoSrc = DEFAULT_DESKTOP_VIDEO,
-  mobileVideoSrc = DEFAULT_MOBILE_VIDEO,
-  posterImage,
-}: VideoHeroProps) {
+export default function VideoHero({ videoSrc = DEFAULT_VIDEO }: VideoHeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    // Most browsers block autoplay-with-sound outright. Attempt
-    // unmuted playback first (per request); if the browser rejects it,
-    // fall back to muted autoplay so the video still plays instead of
-    // sitting frozen — the visitor can then unmute manually via the
-    // button.
     const video = videoRef.current;
     if (!video) return;
     video.muted = false;
@@ -58,8 +45,7 @@ export default function VideoHero({
         video.muted = true;
         setIsMuted(true);
         video.play().catch(() => {
-          // If even muted autoplay is blocked, do nothing further —
-          // the poster image remains visible until user interaction.
+          // Autoplay blocked entirely — remains paused until interaction.
         });
       });
     }
@@ -73,25 +59,27 @@ export default function VideoHero({
   };
 
   return (
-    <section className="relative h-screen min-h-screen w-full overflow-hidden bg-primary [@supports(height:100dvh)]:h-[100dvh]">
+    // mt-20 pushes the video section down by exactly the header's height
+    // (h-20 = 80px) on mobile only, so the shorter aspect-video box starts
+    // right below the floating nav instead of partially behind it. The
+    // header itself is unaffected — it still floats fixed at the very
+    // top in its frosted-glass state, now sitting over the plain page
+    // background for that first 80px instead of over the video. Desktop
+    // reverts to mt-0 since the full-height hero there is designed to
+    // sit behind the nav intentionally.
+    <section className="relative mt-20 w-full aspect-video overflow-hidden bg-primary md:mt-0 md:aspect-auto md:h-screen md:min-h-screen [@supports(height:100dvh)]:md:h-[100dvh]">
       <motion.video
         ref={videoRef}
+        key={videoSrc}
         initial="hidden"
         animate="visible"
         variants={fadeIn}
         loop
         playsInline
-        poster={posterImage}
+        preload="auto"
         className="absolute inset-0 h-full w-full object-cover object-center"
-        onError={(e) => {
-          const video = e.currentTarget;
-          if (video.src !== FALLBACK_VIDEO) {
-            video.src = FALLBACK_VIDEO;
-          }
-        }}
       >
-        <source src={mobileVideoSrc} media="(max-width: 767px)" type="video/mp4" />
-        <source src={desktopVideoSrc} type="video/mp4" />
+        <source src={videoSrc} type="video/mp4" />
       </motion.video>
 
       <div className="absolute inset-0 bg-primary/20" />
@@ -102,7 +90,7 @@ export default function VideoHero({
         transition={{ delay: 1, duration: 0.8 }}
         onClick={toggleMute}
         aria-label={isMuted ? "Unmute video" : "Mute video"}
-        className="absolute bottom-6 right-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-cream/50 text-cream backdrop-blur-sm transition-colors duration-300 hover:border-cream hover:bg-cream/10 md:bottom-10 md:right-10 md:h-11 md:w-11"
+        className="absolute bottom-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-cream/50 text-cream backdrop-blur-sm transition-colors duration-300 hover:border-cream hover:bg-cream/10 md:bottom-10 md:right-10 md:h-11 md:w-11"
       >
         {isMuted ? <MuteIcon /> : <UnmuteIcon />}
       </motion.button>

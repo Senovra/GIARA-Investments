@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { HEADQUARTERS, NAV_LINKS, DESTINATION_SUBNAV } from "@/constants/nav";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { basePath } from "@/lib/basePath";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,7 @@ const MOBILE_DESTINATIONS = [
 export default function Navbar() {
   const pathname = usePathname();
   const { scrolled } = useScrollDirection();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isOpen, setIsOpen] = useState(false);
   const [isDestOpen, setIsDestOpen] = useState(false);
 
@@ -29,7 +31,14 @@ export default function Navbar() {
 
   const heroRoutes = ["/", "/about", "/dubai", "/colombo", "/maldives"];
   const hasHeroBackground = heroRoutes.includes(pathname);
-  const navIsSolid = scrolled || !hasHeroBackground || isOpen;
+  // On mobile, the hero video now starts below the nav (per the earlier
+  // spacing fix) rather than sitting directly behind it, so there's
+  // nothing left for the transparent/dark-glass state to sit over except
+  // the plain cream page background — which produced the murky grey
+  // look. Mobile (!isDesktop) now always uses the solid state; only
+  // desktop still gets the transparent-over-video treatment at the top
+  // of hero pages.
+  const navIsSolid = scrolled || !hasHeroBackground || isOpen || !isDesktop;
 
   const activeDestination = MOBILE_DESTINATIONS.find((d) => pathname.startsWith(d.href));
   const isDestinationActive = Boolean(activeDestination);
@@ -206,13 +215,6 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             style={lightScheme}
-            // Changed from justify-center to justify-start + top padding
-            // that clears the header — this was the actual bug. With
-            // long content (destination pages add 7 extra sub-nav
-            // items), centering pushed the top of the list above the
-            // visible screen. Now the list always starts right below the
-            // header and scrolls down, so "Destinations / Colombo /
-            // Maldives" is always the first thing visible.
             className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-6 overflow-y-auto bg-cream px-6 pb-16 pt-28"
           >
             <span className="text-xs uppercase tracking-widest text-accent">Destinations</span>
