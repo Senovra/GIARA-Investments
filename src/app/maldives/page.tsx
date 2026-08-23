@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function MaldivesOverviewPage() {
   return (
     <>
-      <DestinationVideoHero videoSrc={`${basePath}/videos/maldives.mp4`} />
+      <DestinationVideoHero videoSrc="https://res.cloudinary.com/v1bpvtww/video/upload/v1787454004/maldives.mp4" />
       <DestinationSection content={destinationContent.maldives.overview} isOverview />
     </>
   );

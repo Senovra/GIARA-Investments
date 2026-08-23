@@ -9,7 +9,7 @@ interface VideoHeroProps {
   videoSrc?: string;
 }
 
-const DEFAULT_VIDEO = `${basePath}/videos/hero.mp4`;
+const DEFAULT_VIDEO = "https://res.cloudinary.com/v1bpvtww/video/upload/v1787454003/hero.mp4";
 
 function MuteIcon() {
   return (

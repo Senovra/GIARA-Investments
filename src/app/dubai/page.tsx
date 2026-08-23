@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function DubaiPage() {
   return (
     <>
-      <DestinationVideoHero videoSrc={`${basePath}/videos/dubai.mp4`} />
+      <DestinationVideoHero videoSrc="https://res.cloudinary.com/v1bpvtww/video/upload/v1787453999/dubai.mp4" />
       <section className="mx-auto max-w-2xl px-6 py-24 text-center md:px-10 md:py-32">
         <span className="mb-4 block text-xs uppercase tracking-widest text-accent">
           Headquarters
