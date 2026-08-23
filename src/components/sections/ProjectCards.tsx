@@ -4,22 +4,17 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { staggerContainer, staggerItem } from "@/animations/variants";
-import { DESTINATIONS } from "@/constants/nav";
-import { destinationContent, DestinationSlug } from "@/data/destinationContent";
+import { projects, ProjectContent } from "@/data/projects";
 
 const SLIDE_INTERVAL = 6000;
 const FADE_DURATION = 2.2;
 
-function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: string; href: string }) {
-  const content = destinationContent[slug];
-  const images = [
-    content.overview.image,
-    content.accommodation.image,
-    content.dining.image,
-  ];
+function ProjectCard({ project }: { project: ProjectContent }) {
+  const images = project.galleryImages.length > 0 ? project.galleryImages : [project.image];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (images.length <= 1) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % images.length);
     }, SLIDE_INTERVAL);
@@ -32,7 +27,7 @@ function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: 
         <motion.img
           key={images[index]}
           src={images[index]}
-          alt={label}
+          alt={project.imageAlt}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -43,9 +38,9 @@ function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: 
       <div className="absolute inset-0 bg-primary/25 transition-colors duration-500 group-hover:bg-primary/35" />
 
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-center">
-        <span className="font-display text-3xl text-cream md:text-4xl">{label}</span>
+        <span className="font-display text-3xl text-cream md:text-4xl">{project.name}</span>
         <Link
-          href={href}
+          href={`/${project.slug}`}
           className="border border-cream/60 px-6 py-2.5 text-xs uppercase tracking-widest text-cream transition-colors duration-300 hover:border-cream hover:bg-cream hover:text-primary"
         >
           Discover
@@ -55,32 +50,22 @@ function DestinationCard({ slug, label, href }: { slug: DestinationSlug; label: 
   );
 }
 
-export default function DestinationCards() {
+export default function ProjectCards() {
   return (
     <section className="border-y border-foreground/10 bg-cream-dark">
       <div className="mx-auto max-w-5xl px-6 py-16 md:px-10 md:py-20">
         <span className="mb-10 block text-center text-xs uppercase tracking-widest text-accent">
-          Select a Destination
+          View Our Projects
         </span>
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           variants={staggerContainer}
-          // grid-cols-2 instead of 3 — with Dubai moved to Headquarters,
-          // only Colombo and Maldives remain here, so this uses a
-          // narrower max-width container (max-w-5xl vs 7xl) and taller
-          // aspect ratio (4/5 vs 3/4) so the two cards read as an
-          // intentional pair rather than a 3-column grid with a gap.
           className="grid grid-cols-1 gap-4 sm:grid-cols-2"
         >
-          {DESTINATIONS.map((dest) => (
-            <DestinationCard
-              key={dest.href}
-              slug={dest.href.replace("/", "") as DestinationSlug}
-              label={dest.label}
-              href={dest.href}
-            />
+          {projects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </motion.div>
       </div>

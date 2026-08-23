@@ -1,0 +1,51 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { staggerContainer, staggerItem } from "@/animations/variants";
+import { TeamMember } from "@/data/team";
+
+interface TeamGridProps {
+  members: TeamMember[];
+}
+
+export default function TeamGrid({ members }: TeamGridProps) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={staggerContainer}
+      className="grid gap-8 md:grid-cols-3"
+    >
+      {members.map((member) => (
+        <motion.div
+          key={member.id}
+          variants={staggerItem}
+          whileHover={{ y: -6 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="group border border-foreground/10 bg-cream p-4 shadow-sm transition-shadow duration-400 hover:shadow-lg"
+        >
+          <div className="relative aspect-[3/4] w-full overflow-hidden">
+            <Image
+              src={member.image}
+              alt={member.name}
+              fill
+              className="object-cover"
+              sizes="(min-width: 768px) 33vw, 100vw"
+            />
+          </div>
+          <h3 className="mt-5 font-display text-xl font-light tracking-wide text-foreground">
+            {member.name}
+          </h3>
+          <span className="text-xs uppercase tracking-widest text-accent">
+            {member.designation}
+          </span>
+          <p className="mt-3 text-sm leading-relaxed text-foreground-muted">
+            {member.portfolio}
+          </p>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}

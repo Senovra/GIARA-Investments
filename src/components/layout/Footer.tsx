@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { DESTINATIONS, FOOTER_LINKS } from "@/constants/nav";
+import { PROJECTS, FOOTER_LINKS } from "@/constants/nav";
 import { basePath } from "@/lib/basePath";
 
 export default function Footer() {
@@ -18,7 +18,7 @@ export default function Footer() {
             />
             <div className="mt-6 space-y-1 text-sm text-foreground-muted">
               <p className="text-foreground">GIARA Holdings</p>
-              <p>Dubai, United Arab Emirates</p>
+              <p>DIFC, Dubai, United Arab Emirates</p>
               <p>
                 Tel:{" "}
                 <a href="tel:+97140000000" className="hover:text-accent">
@@ -27,8 +27,8 @@ export default function Footer() {
               </p>
               <p>
                 E-mail:{" "}
-                <a href="mailto:info@giara.com" className="hover:text-accent">
-                  info@giara.com
+                <a href="mailto:information@giara.com" className="hover:text-accent">
+                  information@giara.com
                 </a>
               </p>
             </div>
@@ -51,15 +51,15 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-5 text-xs uppercase tracking-widest text-accent">Destinations</h3>
+            <h3 className="mb-5 text-xs uppercase tracking-widest text-accent">Projects</h3>
             <ul className="space-y-3">
-              {DESTINATIONS.map((dest) => (
-                <li key={dest.href}>
+              {PROJECTS.map((project) => (
+                <li key={project.href}>
                   <Link
-                    href={dest.href}
+                    href={project.href}
                     className="text-sm text-foreground-muted transition-colors hover:text-accent"
                   >
-                    {dest.label}
+                    {project.label}
                   </Link>
                 </li>
               ))}

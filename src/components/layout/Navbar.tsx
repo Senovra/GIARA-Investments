@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { HEADQUARTERS, NAV_LINKS, DESTINATION_SUBNAV } from "@/constants/nav";
+import { PROJECTS, NAV_LINKS } from "@/constants/nav";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { basePath } from "@/lib/basePath";
@@ -13,37 +13,25 @@ import { cn } from "@/lib/utils";
 
 const lightScheme: React.CSSProperties = { colorScheme: "light" };
 
-const MOBILE_DESTINATIONS = [
-  { label: "Colombo", href: "/colombo" },
-  { label: "Maldives", href: "/maldives" },
-];
-
 export default function Navbar() {
   const pathname = usePathname();
   const { scrolled } = useScrollDirection();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isOpen, setIsOpen] = useState(false);
-  const [isDestOpen, setIsDestOpen] = useState(false);
+  const [isProjOpen, setIsProjOpen] = useState(false);
 
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  const heroRoutes = ["/", "/about", "/dubai", "/colombo", "/maldives"];
+  // Headquarters/Dubai removed from hero routes — About now absorbs
+  // that content instead. Sub-nav logic removed entirely — Colombo/
+  // Maldives are single pages now, no Overview/Accommodation/etc.
+  const heroRoutes = ["/", "/about", "/colombo", "/maldives"];
   const hasHeroBackground = heroRoutes.includes(pathname);
-  // On mobile, the hero video now starts below the nav (per the earlier
-  // spacing fix) rather than sitting directly behind it, so there's
-  // nothing left for the transparent/dark-glass state to sit over except
-  // the plain cream page background — which produced the murky grey
-  // look. Mobile (!isDesktop) now always uses the solid state; only
-  // desktop still gets the transparent-over-video treatment at the top
-  // of hero pages.
   const navIsSolid = scrolled || !hasHeroBackground || isOpen || !isDesktop;
 
-  const activeDestination = MOBILE_DESTINATIONS.find((d) => pathname.startsWith(d.href));
-  const isDestinationActive = Boolean(activeDestination);
-  const currentDestSlug = activeDestination?.href.replace("/", "");
-  const isHeadquartersActive = pathname === HEADQUARTERS.href;
+  const isProjectActive = PROJECTS.some((p) => pathname === p.href);
 
   const headerBg = navIsSolid
     ? "bg-cream/90 backdrop-blur-md shadow-sm"
@@ -85,19 +73,19 @@ export default function Navbar() {
           <nav className="hidden items-center gap-10 md:flex">
             <div
               className="relative"
-              onMouseEnter={() => setIsDestOpen(true)}
-              onMouseLeave={() => setIsDestOpen(false)}
+              onMouseEnter={() => setIsProjOpen(true)}
+              onMouseLeave={() => setIsProjOpen(false)}
             >
-              <button className={linkClasses(isDestinationActive)}>
+              <button className={linkClasses(isProjectActive)}>
                 <span className="flex items-center gap-1.5">
-                  Destinations
+                  Projects
                   <svg width="8" height="6" viewBox="0 0 8 6" fill="none" className="mt-px">
                     <path d="M1 1L4 4L7 1" stroke="currentColor" strokeWidth="1.2" />
                   </svg>
                 </span>
               </button>
               <AnimatePresence>
-                {isDestOpen && (
+                {isProjOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -107,18 +95,18 @@ export default function Navbar() {
                     className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4"
                   >
                     <div className="min-w-[180px] border border-foreground/10 bg-cream py-3 shadow-lg">
-                      {MOBILE_DESTINATIONS.map((dest) => {
-                        const isActive = pathname === dest.href;
+                      {PROJECTS.map((project) => {
+                        const isActive = pathname === project.href;
                         return (
                           <Link
-                            key={dest.href}
-                            href={dest.href}
+                            key={project.href}
+                            href={project.href}
                             className={cn(
                               "block px-5 py-2.5 text-xs uppercase tracking-widest text-foreground transition-colors duration-200 hover:text-accent",
                               isActive && "text-accent-light underline underline-offset-4 decoration-1"
                             )}
                           >
-                            {dest.label}
+                            {project.label}
                           </Link>
                         );
                       })}
@@ -127,10 +115,6 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </div>
-
-            <Link href={HEADQUARTERS.href} className={linkClasses(isHeadquartersActive)}>
-              Headquarters
-            </Link>
 
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
@@ -172,38 +156,6 @@ export default function Navbar() {
             />
           </button>
         </div>
-
-        {isDestinationActive && currentDestSlug && (
-          <div
-            style={lightScheme}
-            className={cn(
-              "hidden border-t transition-all duration-500 ease-premium md:block",
-              navIsSolid ? "border-foreground/10 bg-cream/90 backdrop-blur-md" : "border-cream/10 bg-primary/35 backdrop-blur-md"
-            )}
-          >
-            <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-8 gap-y-2 overflow-x-auto px-6 py-3 md:px-10">
-              {DESTINATION_SUBNAV.map((item) => {
-                const href = item.segment
-                  ? `/${currentDestSlug}/${item.segment}`
-                  : `/${currentDestSlug}`;
-                const isActive = pathname === href;
-                return (
-                  <Link
-                    key={item.label}
-                    href={href}
-                    className={cn(
-                      "whitespace-nowrap text-xs uppercase tracking-widest transition-colors duration-300",
-                      navIsSolid ? "text-foreground-muted hover:text-foreground" : "text-cream/80 hover:text-cream",
-                      isActive && "text-accent-light underline underline-offset-4 decoration-1"
-                    )}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </header>
 
       <AnimatePresence mode="wait">
@@ -217,43 +169,15 @@ export default function Navbar() {
             style={lightScheme}
             className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-6 overflow-y-auto bg-cream px-6 pb-16 pt-28"
           >
-            <span className="text-xs uppercase tracking-widest text-accent">Destinations</span>
-            <Link href="/colombo" className={linkClasses(pathname === "/colombo", "lg")}>
-              Colombo
-            </Link>
-            <Link href="/maldives" className={linkClasses(pathname === "/maldives", "lg")}>
-              Maldives
-            </Link>
-
-            {isDestinationActive && currentDestSlug && (
-              <div className="mt-2 flex flex-col items-center gap-4 border-t border-foreground/10 pt-6">
-                {DESTINATION_SUBNAV.map((item) => {
-                  const href = item.segment
-                    ? `/${currentDestSlug}/${item.segment}`
-                    : `/${currentDestSlug}`;
-                  const isActive = pathname === href;
-                  return (
-                    <Link
-                      key={item.label}
-                      href={href}
-                      className={cn(
-                        "text-sm uppercase tracking-widest text-foreground-muted",
-                        isActive && "text-accent-light underline underline-offset-4 decoration-1"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-
-            <div className="my-2 h-px w-16 bg-foreground/10" />
-
-            <span className="text-xs uppercase tracking-widest text-accent">Headquarters</span>
-            <Link href={HEADQUARTERS.href} className={linkClasses(isHeadquartersActive, "lg")}>
-              {HEADQUARTERS.label}
-            </Link>
+            <span className="text-xs uppercase tracking-widest text-accent">Projects</span>
+            {PROJECTS.map((project) => {
+              const isActive = pathname === project.href;
+              return (
+                <Link key={project.href} href={project.href} className={linkClasses(isActive, "lg")}>
+                  {project.label}
+                </Link>
+              );
+            })}
 
             <div className="my-2 h-px w-16 bg-foreground/10" />
             {NAV_LINKS.map((link) => {

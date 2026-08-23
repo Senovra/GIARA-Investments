@@ -3,35 +3,24 @@ export interface NavLink {
   href: string;
 }
 
-export interface DestinationLink {
+export interface ProjectLink {
   label: string;
   href: string;
 }
 
-export const DESTINATIONS: DestinationLink[] = [
+export const PROJECTS: ProjectLink[] = [
   { label: "Colombo", href: "/colombo" },
   { label: "Maldives", href: "/maldives" },
 ];
-
-export const HEADQUARTERS: NavLink = { label: "Dubai", href: "/dubai" };
 
 export const NAV_LINKS: NavLink[] = [
   { label: "About", href: "/about" },
 ];
 
-export const DESTINATION_SUBNAV = [
-  { label: "Overview", segment: "" },
-  { label: "Accommodation", segment: "accommodation" },
-  { label: "Dining", segment: "dining" },
-  { label: "Wellness", segment: "wellness" },
-  { label: "Events", segment: "events" },
-  { label: "Experiences", segment: "experiences" },
-  { label: "Offers", segment: "offers" },
-];
-
+// Development and Careers removed per client request — considered
+// insignificant for now. Policies kept, since it's a standard/expected
+// legal page for any live business site.
 export const FOOTER_LINKS: NavLink[] = [
   { label: "About GIARA", href: "/about" },
-  { label: "Development", href: "/development" },
   { label: "Policies", href: "/policies" },
-  { label: "Careers", href: "/careers" },
 ];

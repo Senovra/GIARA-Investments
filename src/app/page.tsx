@@ -1,6 +1,6 @@
 import VideoHero from "@/components/layout/VideoHero";
 import HomeIntro from "@/components/sections/HomeIntro";
-import DestinationCards from "@/components/sections/DestinationCards";
+import ProjectCards from "@/components/sections/ProjectCards";
 import StorySection from "@/components/sections/StorySection";
 import FeatureSection from "@/components/sections/FeatureSection";
 
@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <VideoHero />
       <HomeIntro />
-      <DestinationCards />
+      <ProjectCards />
       <StorySection />
       <FeatureSection
         eyebrow="Portfolio"
