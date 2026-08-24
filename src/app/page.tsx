@@ -13,7 +13,7 @@ export default function Home() {
       <StorySection />
       <FeatureSection
         eyebrow="Portfolio"
-        title="Composed with clarity and purpose."
+        title="Composed With Clarity and Purpose"
         description="Each holding reflects a singular standard — real estate and hospitality shaped by restraint, not spectacle."
         linkLabel="Discover More"
         linkHref="/about"
@@ -23,7 +23,7 @@ export default function Home() {
       />
       <FeatureSection
         eyebrow="Philosophy"
-        title="Long-term vision, quietly held."
+        title="Long-Term Vision, Quietly Held"
         description="We measure success across decades, not cycles — every decision made with the patience that enduring value requires."
         linkLabel="Discover More"
         linkHref="/about"

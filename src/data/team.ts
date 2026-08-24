@@ -33,4 +33,28 @@ export const teamMembers: TeamMember[] = [
       "Responsible for operational execution across GIARA's project pipeline, from development through to asset stabilization.",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800",
   },
+  {
+    id: "member-4",
+    name: "Name Placeholder",
+    designation: "Head of Development",
+    portfolio:
+      "Manages GIARA's development pipeline end to end, coordinating architecture, construction, and delivery timelines across active projects in Colombo and the Maldives.",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800",
+  },
+  {
+    id: "member-5",
+    name: "Name Placeholder",
+    designation: "Head of Hospitality Operations",
+    portfolio:
+      "Oversees operational standards across GIARA's hospitality assets, working closely with operating partners to maintain a consistent, considered guest experience.",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=801",
+  },
+  {
+    id: "member-6",
+    name: "Name Placeholder",
+    designation: "General Counsel",
+    portfolio:
+      "Leads legal and regulatory matters across GIARA's investment structures, ensuring compliance and clarity across every market the firm operates in.",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=801",
+  },
 ];

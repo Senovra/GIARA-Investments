@@ -12,7 +12,7 @@ interface ProjectHeroProps {
 type Phase = "card" | "video";
 
 const CARD_FADE_IN = 800;
-const CARD_HOLD = 27000;
+const CARD_HOLD = 8000;
 const CARD_FADE_OUT = 1500;
 const CARD_TOTAL = CARD_FADE_IN + CARD_HOLD + CARD_FADE_OUT;
 

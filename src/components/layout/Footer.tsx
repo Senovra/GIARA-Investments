@@ -27,8 +27,8 @@ export default function Footer() {
               </p>
               <p>
                 E-mail:{" "}
-                <a href="mailto:information@giara.com" className="hover:text-accent">
-                  information@giara.com
+                <a href="mailto:info@giara.com" className="hover:text-accent">
+                  info@giara.com
                 </a>
               </p>
             </div>

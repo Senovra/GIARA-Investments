@@ -20,9 +20,19 @@ export default function MaldivesPage() {
         <h2 className="font-display text-3xl font-normal leading-[1.25] text-foreground text-balance md:text-4xl">
           {project.title}
         </h2>
-        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-foreground-muted">
-          {project.description}
-        </p>
+        <div className="mx-auto mt-6 max-w-xl space-y-5 text-left text-base leading-relaxed text-foreground-muted md:text-center">
+          <p>{project.description}</p>
+          <p>
+            The North Malé Atoll remains one of the most accessible parts
+            of the Maldives for international guests, while still
+            offering the natural seclusion the destination is known for
+            — palm-lined shores, reef-fringed lagoons, and a pace of life
+            defined entirely by the tide. GIARA's investment is built
+            around preserving that character while introducing the kind
+            of considered hospitality experience that sustains long-term
+            guest loyalty.
+          </p>
+        </div>
         <div className="mx-auto mt-10 flex max-w-sm justify-center gap-10 border-t border-foreground/10 pt-8">
           <div>
             <span className="block font-display text-2xl text-accent">{project.keys}</span>

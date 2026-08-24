@@ -20,9 +20,18 @@ export default function ColomboPage() {
         <h2 className="font-display text-3xl font-normal leading-[1.25] text-foreground text-balance md:text-4xl">
           {project.title}
         </h2>
-        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-foreground-muted">
-          {project.description}
-        </p>
+        <div className="mx-auto mt-6 max-w-xl space-y-5 text-left text-base leading-relaxed text-foreground-muted md:text-center">
+          <p>{project.description}</p>
+          <p>
+            Port City Colombo operates as a dedicated special economic
+            zone, offering the kind of regulatory clarity and investor
+            protections that institutional capital looks for when
+            entering an emerging market. Its position at the edge of
+            Colombo's central business district, paired with direct
+            waterfront access, made it a natural fit for GIARA's
+            hospitality strategy in South Asia.
+          </p>
+        </div>
         <div className="mx-auto mt-10 flex max-w-sm justify-center gap-10 border-t border-foreground/10 pt-8">
           <div>
             <span className="block font-display text-2xl text-accent">{project.keys}</span>
