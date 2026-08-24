@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProjectContent } from "@/data/projects";
+import { cn } from "@/lib/utils";
 
 interface ProjectHeroProps {
   project: ProjectContent;
@@ -10,9 +11,9 @@ interface ProjectHeroProps {
 
 type Phase = "card" | "video";
 
-const CARD_FADE_IN = 800; // ms
-const CARD_HOLD = 10000; // ms — ~30s total sequence
-const CARD_FADE_OUT = 1500; // ms
+const CARD_FADE_IN = 800;
+const CARD_HOLD = 27000;
+const CARD_FADE_OUT = 1500;
 const CARD_TOTAL = CARD_FADE_IN + CARD_HOLD + CARD_FADE_OUT;
 
 function MuteIcon() {
@@ -39,10 +40,6 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [phase, setPhase] = useState<Phase>("card");
   const [cardVisible, setCardVisible] = useState(false);
-  // Controls the video's own opacity, independent of the card — this is
-  // what guarantees the video is never visible even for a single frame
-  // before the card sequence finishes, regardless of any timing gap in
-  // the card's own fade animation.
   const [videoVisible, setVideoVisible] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
@@ -89,7 +86,17 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
   };
 
   return (
-    <section className="relative mt-20 w-full aspect-video overflow-hidden bg-primary md:mt-0 md:aspect-auto md:h-screen md:min-h-screen [@supports(height:100dvh)]:md:h-[100dvh]">
+    <section
+      className={cn(
+        "relative mt-20 w-full overflow-hidden bg-primary md:mt-0 md:aspect-auto md:h-screen md:min-h-screen [@supports(height:100dvh)]:md:h-[100dvh]",
+        // On mobile only: while the card is showing, the section uses a
+        // fixed, roomier min-height instead of the video's short
+        // aspect-video ratio — the card needs more vertical space than
+        // a 16:9 mobile box provides. Once the video phase begins, it
+        // switches to aspect-video to match the footage's actual shape.
+        phase === "card" ? "min-h-[520px]" : "aspect-video"
+      )}
+    >
       <video
         ref={videoRef}
         preload="auto"
@@ -106,9 +113,6 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         style={{ opacity: videoVisible ? 1 : 0, transition: "opacity 0.8s ease" }}
       />
 
-      {/* Solid backdrop — always covers the full hero for as long as the
-          card phase is active, guaranteeing the video underneath is
-          never visible regardless of the card's own smaller size. */}
       <AnimatePresence>
         {phase === "card" && (
           <motion.div
@@ -116,29 +120,34 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6 }}
-            className="absolute inset-0 z-10 flex items-center justify-center bg-primary p-6"
+            className="absolute inset-0 z-10 flex items-center justify-center bg-primary p-5 md:p-6"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: cardVisible ? 1 : 0, scale: cardVisible ? 1 : 0.98 }}
               transition={{ duration: CARD_FADE_IN / 1000, ease: [0.22, 1, 0.36, 1] }}
-              // A modestly-sized card, not the full hero footprint —
-              // sits centered within the solid backdrop above.
-              className="w-full max-w-md border border-cream/20 bg-cream/95 p-8 text-center shadow-xl backdrop-blur-md md:max-w-lg md:p-10"
+              // Tighter padding and smaller type on mobile (p-6/text-xl)
+              // scaling up at md: (p-10/text-3xl) — the card content
+              // itself now takes up meaningfully less vertical space on
+              // a small screen, on top of the section having more room
+              // to show it in.
+              className="w-full max-w-md border border-cream/20 bg-cream/95 p-6 text-center shadow-xl backdrop-blur-md md:max-w-lg md:p-10"
             >
-              <span className="mb-3 block text-xs uppercase tracking-widest text-accent">
+              <span className="mb-2 block text-[10px] uppercase tracking-widest text-accent md:mb-3 md:text-xs">
                 {project.assetType} — {project.status}
               </span>
-              <h1 className="font-display text-2xl font-normal leading-[1.25] text-foreground text-balance md:text-3xl">
+              <h1 className="font-display text-xl font-normal leading-[1.25] text-foreground text-balance md:text-3xl">
                 {project.title}
               </h1>
-              <p className="mt-4 text-sm leading-relaxed text-foreground-muted">
+              <p className="mt-3 text-sm leading-relaxed text-foreground-muted md:mt-4">
                 {project.brief}
               </p>
-              <div className="mt-6 flex justify-center gap-8 border-t border-foreground/10 pt-6">
+              <div className="mt-5 flex justify-center gap-8 border-t border-foreground/10 pt-5 md:mt-6 md:pt-6">
                 <div>
-                  <span className="block font-display text-xl text-accent">{project.keys}</span>
-                  <span className="text-xs uppercase tracking-widest text-foreground-muted">
+                  <span className="block font-display text-lg text-accent md:text-xl">
+                    {project.keys}
+                  </span>
+                  <span className="text-[10px] uppercase tracking-widest text-foreground-muted md:text-xs">
                     Keys
                   </span>
                 </div>
