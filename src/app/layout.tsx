@@ -6,7 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { basePath } from "@/lib/basePath";
 import MaintenancePage from "@/components/MaintenancePage";
 
-const MAINTENANCE_MODE = true; // flip to true, commit, push to trigger
+const MAINTENANCE_MODE = false; // flip to true, commit, push to trigger
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
