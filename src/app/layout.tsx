@@ -4,6 +4,9 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { basePath } from "@/lib/basePath";
+import MaintenancePage from "@/components/MaintenancePage";
+
+const MAINTENANCE_MODE = false; // flip to true, commit, push to trigger
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -56,7 +59,7 @@ export default function RootLayout({
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body>
         <Navbar />
-        <main>{children}</main>
+        <main>{MAINTENANCE_MODE ? <MaintenancePage /> : children}</main>
         <Footer />
       </body>
     </html>
