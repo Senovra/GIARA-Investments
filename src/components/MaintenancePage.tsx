@@ -7,19 +7,18 @@ import { basePath } from "@/lib/basePath";
 function WrenchIcon() {
   return (
     <motion.svg
-      width="56"
-      height="56"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.4"
+      strokeWidth="1.1"
       strokeLinecap="round"
       strokeLinejoin="round"
-      animate={{ rotate: [0, -12, 12, -8, 8, 0] }}
+      animate={{ rotate: [-6, 6, -6] }}
       transition={{
-        duration: 2.2,
+        duration: 4,
         repeat: Infinity,
-        repeatDelay: 1.4,
         ease: "easeInOut",
       }}
     >
@@ -37,10 +36,14 @@ export default function MaintenancePage() {
         width={1007}
         height={659}
         priority
-        className="mb-12 h-10 w-auto object-contain"
+        className="mb-14 h-10 w-auto object-contain"
       />
 
-      <div className="mb-8 text-accent">
+      {/* Contained in a thin circular outline — same visual pattern as
+          the advisor placeholder circles and the video mute button
+          elsewhere on the site, rather than a standalone bold icon
+          floating on its own. */}
+      <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-full border border-foreground/15 text-accent">
         <WrenchIcon />
       </div>
 
