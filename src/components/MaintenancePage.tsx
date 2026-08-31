@@ -15,9 +15,9 @@ function WrenchIcon() {
       strokeWidth="1.1"
       strokeLinecap="round"
       strokeLinejoin="round"
-      animate={{ rotate: [-6, 6, -6] }}
+      animate={{ rotate: [-14, 14, -14] }}
       transition={{
-        duration: 4,
+        duration: 2.2,
         repeat: Infinity,
         ease: "easeInOut",
       }}
