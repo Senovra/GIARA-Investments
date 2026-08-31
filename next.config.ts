@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  basePath: "/GIARA-Investments",
+  assetPrefix: "/GIARA-Investments/",
+  trailingSlash: false,
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -12,12 +16,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.pexels.com",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
   reactStrictMode: true,
-  allowedDevOrigins: [
-    "10.171.122.43",
-  ],
 };
 
 export default nextConfig;

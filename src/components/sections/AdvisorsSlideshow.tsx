@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Advisor } from "@/data/advisors";
 
 interface AdvisorsSlideshowProps {
@@ -40,13 +41,24 @@ export default function AdvisorsSlideshow({ advisors }: AdvisorsSlideshowProps) 
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="border border-foreground/10 bg-cream px-8 py-12 text-center shadow-sm transition-shadow duration-400 hover:shadow-lg"
           >
-            {/* Enlarged from h-14 w-14 to h-24 w-24 — a more prominent
-                placeholder footprint, easier to swap for a real logo
-                later without everything feeling undersized. */}
-            <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full border border-foreground/10 bg-cream-dark">
-              <span className="font-display text-2xl text-foreground-muted">
-                {advisor.name.charAt(0)}
-              </span>
+            <div className="mx-auto mb-6 flex h-24 w-full max-w-[180px] items-center justify-center">
+              {advisor.logo ? (
+                <div className="relative h-full w-full">
+                  <Image
+                    src={advisor.logo}
+                    alt={advisor.name}
+                    fill
+                    className="object-contain"
+                    sizes="180px"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-24 w-24 items-center justify-center rounded-full border border-foreground/10 bg-cream-dark">
+                  <span className="font-display text-2xl text-foreground-muted">
+                    {advisor.name.charAt(0)}
+                  </span>
+                </div>
+              )}
             </div>
             <h3 className="font-display text-lg text-foreground">{advisor.name}</h3>
             <span className="mt-1 block text-xs uppercase tracking-widest text-accent">

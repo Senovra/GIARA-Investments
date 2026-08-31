@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { basePath } from "@/lib/basePath";
 
 function WrenchIcon() {
   return (
@@ -31,7 +30,7 @@ export default function MaintenancePage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-cream px-6 text-center">
       <Image
-        src={`${basePath}/GIARALogo.png`}
+        src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788149746/GIARALogo.png"
         alt="GIARA"
         width={1007}
         height={659}
@@ -39,10 +38,6 @@ export default function MaintenancePage() {
         className="mb-14 h-10 w-auto object-contain"
       />
 
-      {/* Contained in a thin circular outline — same visual pattern as
-          the advisor placeholder circles and the video mute button
-          elsewhere on the site, rather than a standalone bold icon
-          floating on its own. */}
       <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-full border border-foreground/15 text-accent">
         <WrenchIcon />
       </div>

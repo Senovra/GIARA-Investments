@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, NAV_LINKS } from "@/constants/nav";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { basePath } from "@/lib/basePath";
 import { cn } from "@/lib/utils";
 
 const lightScheme: React.CSSProperties = { colorScheme: "light" };
@@ -57,17 +56,17 @@ export default function Navbar() {
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
           <Link href="/" className="relative z-50 flex shrink-0 items-center" aria-label="GIARA — Home">
             <Image
-              src={`${basePath}/GIARALogo.png`}
-              alt="GIARA"
-              width={1007}
-              height={659}
-              priority
-              style={lightScheme}
-              className={cn(
-                "h-9 w-auto object-contain transition-all duration-500",
-                !navIsSolid && "brightness-0 invert"
-              )}
-            />
+  src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788149746/GIARALogo.png"
+  alt="GIARA"
+  width={1007}
+  height={659}
+  priority
+  style={lightScheme}
+  className={cn(
+    "h-9 w-auto object-contain transition-all duration-500",
+    !navIsSolid && "brightness-0 invert"
+  )}
+/>
           </Link>
 
           <nav className="hidden items-center gap-10 md:flex">
