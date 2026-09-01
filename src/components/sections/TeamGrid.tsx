@@ -34,6 +34,14 @@ export default function TeamGrid({ members }: TeamGridProps) {
               className="object-cover"
               sizes="(min-width: 768px) 33vw, 100vw"
             />
+            {/* Diagonal watermark band — makes clear this is a stand-in
+                photo, not a real staff portrait, until the client
+                supplies actual team photography. */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+              <span className="w-[160%] -rotate-[32deg] bg-primary/70 py-1.5 text-center text-[11px] font-medium uppercase tracking-[0.25em] text-cream">
+                Placeholder — For Display Purposes Only
+              </span>
+            </div>
           </div>
           <h3 className="mt-5 font-display text-xl font-light tracking-wide text-foreground">
             {member.name}
