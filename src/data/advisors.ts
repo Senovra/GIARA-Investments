@@ -13,7 +13,7 @@ export const advisors: Advisor[] = [
     id: "advisor-ey",
     name: "EY Maldives",
     role: "Auditors — Maldives",
-    logo: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788149535/EY.jpg",
+    logo: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788357091/EY.png",
   },
   {
     id: "advisor-mm",
