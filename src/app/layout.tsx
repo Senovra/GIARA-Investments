@@ -26,10 +26,10 @@ export const metadata: Metadata = {
   description:
     "GIARA is an investment firm specializing in hospitality investments, headquartered in Dubai with projects in Colombo and the Maldives.",
   icons: {
-    icon: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788149750/Logo3.png",
-    shortcut: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788149750/Logo3.png",
-    apple: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788149750/Logo3.png",
-  },
+  icon: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788330875/GIARAnewlogo3.png",
+  shortcut: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788330875/GIARAnewlogo3.png",
+  apple: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788330875/GIARAnewlogo3.png",
+},
   robots: {
     index: true,
     follow: true,
