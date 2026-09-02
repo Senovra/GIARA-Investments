@@ -7,13 +7,11 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, NAV_LINKS } from "@/constants/nav";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const pathname = usePathname();
   const { scrolled } = useScrollDirection();
-  const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isOpen, setIsOpen] = useState(false);
   const [isProjOpen, setIsProjOpen] = useState(false);
 
@@ -23,31 +21,35 @@ export default function Navbar() {
 
   const heroRoutes = ["/", "/about", "/colombo", "/maldives"];
   const hasHeroBackground = heroRoutes.includes(pathname);
-  const navIsSolid = scrolled || !hasHeroBackground || isOpen || !isDesktop;
+  // Mobile now gets the same faded/blurred state as desktop on hero
+  // pages — it only forces solid when scrolled, on a non-hero page, or
+  // when the hamburger menu is actually open (isOpen), not just because
+  // the viewport is small.
+  const navIsSolid = scrolled || !hasHeroBackground || isOpen;
 
   const isProjectActive = PROJECTS.some((p) => pathname === p.href);
 
+  // Solid state uses the same cream-dark beige as the homepage's
+  // Projects section — the standard theme token, not a one-off custom
+  // color.
   const headerBg = navIsSolid
-    ? "bg-[#E2D8C3] shadow-md"
-    : "bg-[#E2D8C3]/20 backdrop-blur-sm";
+    ? "bg-cream-dark shadow-md"
+    : "bg-cream-dark/20 backdrop-blur-sm";
 
   const dropdownBg = navIsSolid
-    ? "bg-[#E2D8C3] shadow-lg"
-    : "bg-[#E2D8C3]/20 backdrop-blur-sm shadow-lg";
+    ? "bg-cream-dark shadow-lg"
+    : "bg-cream-dark/20 backdrop-blur-sm shadow-lg";
 
-  // White text only in the faded/blurred state (over video); reverts to
-  // the normal dark foreground color once solid, since white-on-solid-
-  // beige was the low-contrast problem flagged earlier.
   const linkClasses = (isActive: boolean, size: "sm" | "lg" = "sm") =>
-  cn(
-    size === "sm" ? "text-xs uppercase tracking-widest" : "font-display text-2xl",
-    "transition-colors duration-300",
-    navIsSolid ? "text-foreground" : "text-white",
-    isActive &&
-      (navIsSolid
-        ? "text-[#8A6F3B] underline underline-offset-4 decoration-1"
-        : "text-accent-light underline underline-offset-4 decoration-1")
-  );
+    cn(
+      size === "sm" ? "text-xs uppercase tracking-widest" : "font-display text-2xl",
+      "transition-colors duration-300",
+      navIsSolid ? "text-foreground" : "text-white",
+      isActive &&
+        (navIsSolid
+          ? "text-[#8A6F3B] underline underline-offset-4 decoration-1"
+          : "text-accent-light underline underline-offset-4 decoration-1")
+    );
 
   return (
     <>
@@ -100,13 +102,13 @@ export default function Navbar() {
                             key={project.href}
                             href={project.href}
                             className={cn(
-  "block px-5 py-2.5 text-xs uppercase tracking-widest transition-colors duration-200",
-  navIsSolid ? "text-foreground hover:text-[#8A6F3B]" : "text-white hover:text-accent-light",
-  isActive &&
-    (navIsSolid
-      ? "text-[#8A6F3B] underline underline-offset-4 decoration-1"
-      : "text-accent-light underline underline-offset-4 decoration-1")
-)}
+                              "block px-5 py-2.5 text-xs uppercase tracking-widest transition-colors duration-200",
+                              navIsSolid ? "text-foreground hover:text-[#8A6F3B]" : "text-white hover:text-accent-light",
+                              isActive &&
+                                (navIsSolid
+                                  ? "text-[#8A6F3B] underline underline-offset-4 decoration-1"
+                                  : "text-accent-light underline underline-offset-4 decoration-1")
+                            )}
                           >
                             {project.label}
                           </Link>
@@ -129,16 +131,16 @@ export default function Navbar() {
           </nav>
 
           <Link
-  href="/contact"
-  className={cn(
-    "hidden border px-5 py-2.5 text-xs uppercase tracking-widest transition-colors duration-300 md:block",
-    navIsSolid
-      ? "border-foreground/30 text-foreground hover:border-accent hover:text-accent"
-      : "border-white/50 text-white hover:border-white hover:text-white/80"
-  )}
->
-  Enquire
-</Link>
+            href="/contact"
+            className={cn(
+              "hidden border px-5 py-2.5 text-xs uppercase tracking-widest transition-colors duration-300 md:block",
+              navIsSolid
+                ? "border-foreground/30 text-foreground hover:border-accent hover:text-accent"
+                : "border-white/50 text-white hover:border-white hover:text-white/80"
+            )}
+          >
+            Enquire
+          </Link>
 
           <button
             aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -168,7 +170,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-6 overflow-y-auto bg-[#E2D8C3] px-6 pb-16 pt-28"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-6 overflow-y-auto bg-cream-dark px-6 pb-16 pt-28"
           >
             <span className="text-xs uppercase tracking-widest text-accent">Projects</span>
             {PROJECTS.map((project) => {
