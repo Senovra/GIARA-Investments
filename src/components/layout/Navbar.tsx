@@ -7,11 +7,13 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, NAV_LINKS } from "@/constants/nav";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const pathname = usePathname();
   const { scrolled } = useScrollDirection();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isOpen, setIsOpen] = useState(false);
   const [isProjOpen, setIsProjOpen] = useState(false);
 
@@ -19,25 +21,40 @@ export default function Navbar() {
     setIsOpen(false);
   }, [pathname]);
 
+  const heroRoutes = ["/", "/about", "/colombo", "/maldives"];
+  const hasHeroBackground = heroRoutes.includes(pathname);
+  const navIsSolid = scrolled || !hasHeroBackground || isOpen || !isDesktop;
+
   const isProjectActive = PROJECTS.some((p) => pathname === p.href);
 
+  const headerBg = navIsSolid
+    ? "bg-[#E2D8C3] shadow-md"
+    : "bg-[#E2D8C3]/20 backdrop-blur-sm";
+
+  const dropdownBg = navIsSolid
+    ? "bg-[#E2D8C3] shadow-lg"
+    : "bg-[#E2D8C3]/20 backdrop-blur-sm shadow-lg";
+
+  // White text only in the faded/blurred state (over video); reverts to
+  // the normal dark foreground color once solid, since white-on-solid-
+  // beige was the low-contrast problem flagged earlier.
   const linkClasses = (isActive: boolean, size: "sm" | "lg" = "sm") =>
-    cn(
-      size === "sm" ? "text-xs uppercase tracking-widest" : "font-display text-2xl",
-      "text-foreground transition-colors duration-300",
-      isActive && "text-accent-light underline underline-offset-4 decoration-1"
-    );
+  cn(
+    size === "sm" ? "text-xs uppercase tracking-widest" : "font-display text-2xl",
+    "transition-colors duration-300",
+    navIsSolid ? "text-foreground" : "text-white",
+    isActive &&
+      (navIsSolid
+        ? "text-[#8A6F3B] underline underline-offset-4 decoration-1"
+        : "text-accent-light underline underline-offset-4 decoration-1")
+  );
 
   return (
     <>
-      {/* Always solid — same cream-dark beige used on the homepage
-          Projects section. No transparent/glass state, no sub-nav row
-          (that was leftover from the old multi-section project pages,
-          which no longer exist). */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 bg-cream-dark transition-shadow duration-500 ease-premium",
-          scrolled ? "shadow-md" : "shadow-sm"
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-premium",
+          headerBg
         )}
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
@@ -75,7 +92,7 @@ export default function Navbar() {
                     transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                     className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4"
                   >
-                    <div className="min-w-[180px] border border-foreground/10 bg-cream-dark py-3 shadow-lg">
+                    <div className={cn("min-w-[180px] py-3 transition-all duration-500 ease-premium", dropdownBg)}>
                       {PROJECTS.map((project) => {
                         const isActive = pathname === project.href;
                         return (
@@ -83,9 +100,13 @@ export default function Navbar() {
                             key={project.href}
                             href={project.href}
                             className={cn(
-                              "block px-5 py-2.5 text-xs uppercase tracking-widest text-foreground transition-colors duration-200 hover:text-accent",
-                              isActive && "text-accent-light underline underline-offset-4 decoration-1"
-                            )}
+  "block px-5 py-2.5 text-xs uppercase tracking-widest transition-colors duration-200",
+  navIsSolid ? "text-foreground hover:text-[#8A6F3B]" : "text-white hover:text-accent-light",
+  isActive &&
+    (navIsSolid
+      ? "text-[#8A6F3B] underline underline-offset-4 decoration-1"
+      : "text-accent-light underline underline-offset-4 decoration-1")
+)}
                           >
                             {project.label}
                           </Link>
@@ -108,11 +129,16 @@ export default function Navbar() {
           </nav>
 
           <Link
-            href="/contact"
-            className="hidden border border-foreground/30 px-5 py-2.5 text-xs uppercase tracking-widest text-foreground transition-colors duration-300 hover:border-accent hover:text-accent md:block"
-          >
-            Enquire
-          </Link>
+  href="/contact"
+  className={cn(
+    "hidden border px-5 py-2.5 text-xs uppercase tracking-widest transition-colors duration-300 md:block",
+    navIsSolid
+      ? "border-foreground/30 text-foreground hover:border-accent hover:text-accent"
+      : "border-white/50 text-white hover:border-white hover:text-white/80"
+  )}
+>
+  Enquire
+</Link>
 
           <button
             aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -123,12 +149,12 @@ export default function Navbar() {
             <motion.span
               animate={isOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -5 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute h-px w-6 bg-foreground"
+              className={cn("absolute h-px w-6", navIsSolid ? "bg-foreground" : "bg-white")}
             />
             <motion.span
               animate={isOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 5 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute h-px w-6 bg-foreground"
+              className={cn("absolute h-px w-6", navIsSolid ? "bg-foreground" : "bg-white")}
             />
           </button>
         </div>
@@ -142,7 +168,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-6 overflow-y-auto bg-cream-dark px-6 pb-16 pt-28"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-start gap-6 overflow-y-auto bg-[#E2D8C3] px-6 pb-16 pt-28"
           >
             <span className="text-xs uppercase tracking-widest text-accent">Projects</span>
             {PROJECTS.map((project) => {
