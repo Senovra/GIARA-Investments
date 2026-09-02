@@ -19,7 +19,7 @@ export const advisors: Advisor[] = [
     id: "advisor-mm",
     name: "Mazlan & Murad Law Associates",
     role: "Legal Advisors — Maldives",
-    logo: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788357860/MM.png",
+    logo: "https://res.cloudinary.com/v1bpvtww/image/upload/v1788358359/MM.png",
   },
   {
     id: "advisor-cla",
