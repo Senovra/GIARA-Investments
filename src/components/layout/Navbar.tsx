@@ -62,7 +62,7 @@ export default function Navbar() {
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
           <Link href="/" className="relative z-50 flex shrink-0 items-center" aria-label="GIARA — Home">
             <Image
-              src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788331486/GIARAnewlogo2.png"
+              src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788511844/GIARAnewlogo2.png"
               alt="GIARA"
               width={1007}
               height={659}
