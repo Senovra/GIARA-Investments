@@ -5,11 +5,9 @@
 :root {
   --font-display: "Cormorant Garamond", "Playfair Display", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  /* Opts the page out of forced/auto dark-mode repainting by browsers
-     like Samsung Internet and Chrome for Android — without this, some
-     Android browsers blacken the page and heuristically invert or
-     recolor semi-transparent elements (like the nav overlaying the hero
-     video), which is what was causing the contrast/readability issue.
+  /* Opts the page out of forced/auto dark-mode repainting where the browser
+     respects it. Chrome for Android does; Samsung Internet does not, which
+     is why the logo is an inline SVG — see src/components/ui/Wordmark.tsx.
 
      The `only` keyword is what does the work: a bare `light` merely
      states a preference the browser is still free to override, whereas

@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ProjectContent } from "@/data/projects";
+import { optimizedVideo } from "@/lib/cloudinaryVideo";
 import { cn } from "@/lib/utils";
 
 interface ProjectHeroProps {
@@ -105,7 +106,7 @@ export default function ProjectHero({ project }: ProjectHeroProps) {
         style={{ opacity: videoVisible ? 1 : 0, transition: "opacity 0.8s ease" }}
         className="absolute inset-0 h-full w-full object-cover object-center"
       >
-        <source src={project.videoSrc} type="video/mp4" />
+        <source src={optimizedVideo(project.videoSrc)} type="video/mp4" />
       </video>
 
       <div

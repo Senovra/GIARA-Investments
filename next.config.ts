@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   basePath: isProd ? "/GIARA-Investments" : "",
   assetPrefix: isProd ? "/GIARA-Investments/" : "",
   trailingSlash: false,
+  // Next blocks cross-origin requests to /_next/* dev resources, which kills
+  // hot reload when the dev server is opened from a phone on the LAN by IP.
+  // Patterns match per dot-segment, so a single "*" covers a changing DHCP
+  // address. Development only — production is a static export.
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
   images: {
     unoptimized: true,
     remotePatterns: [

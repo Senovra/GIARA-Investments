@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import { PROJECTS, FOOTER_LINKS } from "@/constants/nav";
+import Wordmark from "@/components/ui/Wordmark";
 
 export default function Footer() {
   return (
@@ -8,13 +8,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <Image
-  src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788512173/GIARAnewlogo2.png"
-  alt="GIARA"
-  width={1007}
-  height={659}
-  className="h-14 w-auto object-contain"
-/>
+            <Wordmark className="h-3.5 text-foreground" />
             <div className="mt-6 space-y-1 text-sm text-foreground-muted">
               <p className="text-foreground">GIARA Holdings</p>
               <p>DIFC, Dubai, United Arab Emirates</p>

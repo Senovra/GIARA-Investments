@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/animations/variants";
-import { basePath } from "@/lib/basePath";
+import { optimizedVideo } from "@/lib/cloudinaryVideo";
 
 interface VideoHeroProps {
   videoSrc?: string;
@@ -79,7 +79,7 @@ export default function VideoHero({ videoSrc = DEFAULT_VIDEO }: VideoHeroProps) 
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover object-center"
       >
-        <source src={videoSrc} type="video/mp4" />
+        <source src={optimizedVideo(videoSrc)} type="video/mp4" />
       </motion.video>
 
       <div className="absolute inset-0 bg-primary/20" />

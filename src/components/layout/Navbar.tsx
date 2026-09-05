@@ -2,16 +2,18 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS, NAV_LINKS } from "@/constants/nav";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import Wordmark from "@/components/ui/Wordmark";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const pathname = usePathname();
   const { scrolled } = useScrollDirection();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isOpen, setIsOpen] = useState(false);
   const [isProjOpen, setIsProjOpen] = useState(false);
 
@@ -21,17 +23,15 @@ export default function Navbar() {
 
   const heroRoutes = ["/", "/about", "/colombo", "/maldives"];
   const hasHeroBackground = heroRoutes.includes(pathname);
-  // Mobile now gets the same faded/blurred state as desktop on hero
-  // pages — it only forces solid when scrolled, on a non-hero page, or
-  // when the hamburger menu is actually open (isOpen), not just because
-  // the viewport is small.
-  const navIsSolid = scrolled || !hasHeroBackground || isOpen;
+  // Mobile is always solid now — the hero video sits below the fixed
+  // header on mobile (per the earlier mt-20 spacing fix), so there's no
+  // video directly behind the nav there to justify a faded/blurred
+  // state. Only desktop still gets the faded treatment at the top of
+  // hero pages.
+  const navIsSolid = scrolled || !hasHeroBackground || isOpen || !isDesktop;
 
   const isProjectActive = PROJECTS.some((p) => pathname === p.href);
 
-  // Solid state uses the same cream-dark beige as the homepage's
-  // Projects section — the standard theme token, not a one-off custom
-  // color.
   const headerBg = navIsSolid
     ? "bg-cream-dark shadow-md"
     : "bg-cream-dark/20 backdrop-blur-sm";
@@ -61,13 +61,14 @@ export default function Navbar() {
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
           <Link href="/" className="relative z-50 flex shrink-0 items-center" aria-label="GIARA — Home">
-            <Image
-              src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788512173/GIARAnewlogo2.png"
-              alt="GIARA"
-              width={1007}
-              height={659}
-              priority
-              className="h-9 w-auto object-contain"
+            {/* An inline SVG rather than an image file, so Samsung
+                Internet's forced dark mode recolours the wordmark along
+                with the nav text instead of leaving it dark on a blackened
+                header. This also replaces the old solid/transparent logo
+                pair, which rendered the wordmark at two different sizes and
+                made it jump when the header changed state. */}
+            <Wordmark
+              className={cn("h-4", navIsSolid ? "text-foreground" : "text-white")}
             />
           </Link>
 
@@ -151,12 +152,12 @@ export default function Navbar() {
             <motion.span
               animate={isOpen ? { rotate: 45, y: 0 } : { rotate: 0, y: -5 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn("absolute h-px w-6", navIsSolid ? "bg-foreground" : "bg-white")}
+              className="absolute h-px w-6 bg-foreground"
             />
             <motion.span
               animate={isOpen ? { rotate: -45, y: 0 } : { rotate: 0, y: 5 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className={cn("absolute h-px w-6", navIsSolid ? "bg-foreground" : "bg-white")}
+              className="absolute h-px w-6 bg-foreground"
             />
           </button>
         </div>
