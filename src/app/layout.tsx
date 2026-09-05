@@ -48,7 +48,7 @@ export const viewport: Viewport = {
   themeColor: "#F5F2EC",
 };
 
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 export default function RootLayout({
   children,
