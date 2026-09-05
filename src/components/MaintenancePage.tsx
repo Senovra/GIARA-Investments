@@ -54,8 +54,8 @@ export default function MaintenancePage() {
       </p>
       <p className="mt-10 text-xs uppercase tracking-widest text-foreground-muted">
         For urgent enquiries, contact{" "}
-        <a href="mailto:info@giara.global" className="text-foreground underline decoration-accent underline-offset-4 hover:text-accent">
-          info@giara.global
+        <a href="mailto:support@giara.global" className="text-foreground underline decoration-accent underline-offset-4 hover:text-accent">
+          support@giara.global
         </a>
       </p>
     </div>

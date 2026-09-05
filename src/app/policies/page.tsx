@@ -62,10 +62,10 @@ export default function PoliciesPage() {
           <p>
             Please contact{" "}
             <a
-              href="mailto:information@giara.com"
+              href="mailto:legal@giara.com"
               className="text-foreground underline decoration-accent underline-offset-4 hover:text-accent"
             >
-              information@giara.com
+              legal@giara.com
             </a>{" "}
             with any questions regarding this policy.
           </p>
