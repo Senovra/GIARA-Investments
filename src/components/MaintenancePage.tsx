@@ -30,7 +30,7 @@ export default function MaintenancePage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-cream px-6 text-center">
       <Image
-        src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788149746/GIARALogo.png"
+        src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788628021/GIARA_DARK_FAVICON_703X171_SVG.svg"
         alt="GIARA"
         width={1007}
         height={659}
