@@ -68,8 +68,8 @@ export default function Navbar() {
                 pair, which rendered the wordmark at two different sizes and
                 made it jump when the header changed state. */}
             <Wordmark
-              className={cn("h-4", navIsSolid ? "text-foreground" : "text-white")}
-            />
+  className={cn("h-5 md:h-6", navIsSolid ? "text-foreground" : "text-white")}
+/>
           </Link>
 
           <nav className="hidden items-center gap-10 md:flex">

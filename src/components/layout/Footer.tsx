@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <Wordmark className="h-3.5 text-foreground" />
+            <Wordmark className="h-9 text-foreground" />
             <div className="mt-6 space-y-1 text-sm text-foreground-muted">
               <p className="text-foreground">GIARA Holdings</p>
               <p>DIFC, Dubai, United Arab Emirates</p>
