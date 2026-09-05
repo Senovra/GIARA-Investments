@@ -9,11 +9,18 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <Image
-  src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788512173/GIARAnewlogo2.png"
+  src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788330264/GIARAnewlogo2.png"
   alt="GIARA"
   width={1007}
   height={659}
-  className="h-14 w-auto object-contain"
+  className="h-14 w-auto object-contain [@media(prefers-color-scheme:dark)]:hidden"
+/>
+<Image
+  src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788603454/GIARAnewlogo4.png"
+  alt="GIARA"
+  width={1007}
+  height={659}
+  className="hidden h-14 w-auto object-contain [@media(prefers-color-scheme:dark)]:block"
 />
             <div className="mt-6 space-y-1 text-sm text-foreground-muted">
               <p className="text-foreground">GIARA Holdings</p>

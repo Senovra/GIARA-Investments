@@ -61,15 +61,30 @@ export default function Navbar() {
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-10">
           <Link href="/" className="relative z-50 flex shrink-0 items-center" aria-label="GIARA — Home">
-            <Image
-              src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788512173/GIARAnewlogo2.png"
-              alt="GIARA"
-              width={1007}
-              height={659}
-              priority
-              className="h-9 w-auto object-contain"
-            />
-          </Link>
+  {/* Standard/light-mode logo — hidden if the browser reports a dark
+      color-scheme preference. */}
+  <Image
+    src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788331486/GIARAnewlogo2.png"
+    alt="GIARA"
+    width={1007}
+    height={659}
+    priority
+    className="h-9 w-auto object-contain [@media(prefers-color-scheme:dark)]:hidden"
+  />
+  {/* Dark-mode logo — only shown when prefers-color-scheme: dark is
+      detected. Note: this affects ANY browser/device reporting dark
+      mode, not exclusively Samsung Internet — there is no way to
+      distinguish Samsung's forced dark mode from a genuine dark-mode
+      preference elsewhere. */}
+  <Image
+    src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788603454/GIARAnewlogo4.png"
+    alt="GIARA"
+    width={1007}
+    height={659}
+    priority
+    className="hidden h-9 w-auto object-contain [@media(prefers-color-scheme:dark)]:block"
+  />
+</Link>
 
           <nav className="hidden items-center gap-10 md:flex">
             <div
