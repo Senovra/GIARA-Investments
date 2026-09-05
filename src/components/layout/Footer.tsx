@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <Image
-  src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788330264/GIARAnewlogo.png"
+  src="https://res.cloudinary.com/v1bpvtww/image/upload/v1788512173/GIARAnewlogo2.png"
   alt="GIARA"
   width={1007}
   height={659}

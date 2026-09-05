@@ -5,17 +5,21 @@
 :root {
   --font-display: "Cormorant Garamond", "Playfair Display", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  /* Explicitly opts the page out of forced/auto dark-mode repainting by
-     browsers like Samsung Internet — without this, some Android
-     browsers heuristically invert or recolor semi-transparent elements
-     (like the nav overlaying the hero video), which is what was
-     causing the contrast/readability issue. */
-  color-scheme: light;
+  /* Opts the page out of forced/auto dark-mode repainting by browsers
+     like Samsung Internet and Chrome for Android — without this, some
+     Android browsers blacken the page and heuristically invert or
+     recolor semi-transparent elements (like the nav overlaying the hero
+     video), which is what was causing the contrast/readability issue.
+
+     The `only` keyword is what does the work: a bare `light` merely
+     states a preference the browser is still free to override, whereas
+     `only light` forbids the override outright. Also set as a meta tag
+     in layout.tsx, which stops the repaint before it can flash. */
+  color-scheme: only light;
 }
 
 html {
   scroll-behavior: auto;
-  color-scheme: light;
 }
 
 body {

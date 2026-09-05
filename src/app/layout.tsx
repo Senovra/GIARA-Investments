@@ -37,7 +37,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
+  // "only light" rather than "light": the `only` keyword forbids
+  // browsers from force-darkening the page instead of merely stating a
+  // preference. Declaring it here as well as in globals.css means the
+  // browser knows before it paints, so there's no flash of a blackened
+  // page on Android. See the note in globals.css.
+  colorScheme: "only light",
   themeColor: "#F5F2EC",
 };
 
